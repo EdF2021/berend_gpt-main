@@ -8,7 +8,7 @@ try:
 except:
     openai_api_key = st.secrets["OPENAI_API_KEY"]
 
-image = Image.open("/berend_gpt/images/producttoer.jpeg")
+image = Image.open("berend_gpt/images/producttoer.jpeg")
 st.set_page_config(
     page_title="Berend-Botje Skills",
     page_icon="👋",
