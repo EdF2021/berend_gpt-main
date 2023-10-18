@@ -21,7 +21,7 @@ from berend_gpt.core.utils import get_llm
 
 
 LOGGER = get_logger(__name__)
-print(str(__name__))
+# print(str(__name__))
 
 try:
     openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -30,7 +30,7 @@ except:
 
 # st.session_state.get("OPENAI_API_KEY")
 
-image = Image.open("images/producttoer.jpeg")
+image = Image.open("/berend_gpt/images/producttoer.jpeg")
 
 # from berend_gpt.components.sidebar import sidebar
 
