@@ -26,8 +26,8 @@ with col1:
         """ ##### Heb je rond deze tijd ook zo'n trek in een lekker broodje :sandwich: maar je hebt geen zin om de deur uit te gaan :house: ? 
     **Dan heeft Berend's Broodje de oplossing.**
     - Stuur een foto van wat je in huis hebt: brood, beleg, sla, sausjes, ... wat je maar wilt 
-    - Berend maakt dan een recept voor je om snel een heerlijk broodje te maken :cooking:  
-    - Hij stuurt zelfs een foto mee, om je alvast lekker te maken
+    - De AI van Berend maakt dan een recept voor je om snel een heerlijk broodje te maken :cooking:  
+    - Hij stuurt zelfs, met hulp van AI, een foto mee, om je alvast lekker te maken
 
     **Eet smakelijk!!** """
     )
@@ -52,7 +52,7 @@ uploaded_file = st.file_uploader(
 )
 
 
-# openai.api_key = st.secrets["OPENAI_API_KEY"]
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = "gpt-3.5-turbo"
@@ -60,44 +60,47 @@ if "openai_model" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state.messages = []
     st.session_state.messages.append(
-        {"role": "system", "content": "Geef altijd antwoord in het Nederlands"}
+        {
+            "role": "system", 
+            "content": "Je bent een behulpzame assistent bot, en je kan op basis van ingredienten heerlijke recepten voor broodjes maken."
+        }
     )
+
+full_response = ""
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         if message["role"] != "system":
             st.markdown(message["content"])
-
-
-full_response = ""
-
+        
 if prompt := st.chat_input("Hoe gaat het?"):
+    prompt = prompt + " zijn je ingredienten. Maak nu met alleen deze ingredienten een recept voor een heerlijk broodje" 
     st.session_state.messages.append(
         {
             "role": "user",
-            "content": "Geef een recept voor een lekker broodje en gebruik hiervoor alleen deze ingredienten: " + str(prompt),
+            "content": prompt,
         }
     )
     with st.chat_message("user"):
         st.markdown(prompt)
-
-    with st.chat_message("assistant"):
-        message_placeholder = st.empty()
-        full_response = ""
-        for response in openai.ChatCompletion.create(
-            model=st.session_state["openai_model"],
-            messages=[
+        
+        with st.chat_message("assistant"):
+            message_placeholder = st.empty()
+            full_response = ""
+            for response in openai.ChatCompletion.create(
+                model=st.session_state["openai_model"],
+                messages=[
                 {"role": m["role"], "content": m["content"]}
                 for m in st.session_state.messages
-            ],
-            stream=True,
-        ):
-            full_response += response.choices[0].delta.get("content", "")
-            message_placeholder.markdown(full_response + "▌")
+                ],
+                stream=True,
+            ):
+                full_response += response.choices[0].delta.get("content", "")
+                message_placeholder.markdown(full_response + "▌")
 
-    message_placeholder.markdown(full_response)
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
-    response == " "
+        message_placeholder.markdown(full_response)
+        st.session_state.messages.append({"role": "assistant", "content": full_response})
+        response == " "
 
     # print(full_response)
 
