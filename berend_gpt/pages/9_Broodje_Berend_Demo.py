@@ -75,8 +75,7 @@ if prompt := st.chat_input("Hoe gaat het?"):
     st.session_state.messages.append(
         {
             "role": "user",
-            "content": "Geef een recept voor een lekker broodje als ik deze spullen in huis heb:  "
-            + prompt,
+            "content": "Geef een recept voor een lekker broodje en gebruik hiervoor alleen deze ingredienten: " + str(prompt),
         }
     )
     with st.chat_message("user"):
@@ -93,14 +92,14 @@ if prompt := st.chat_input("Hoe gaat het?"):
             ],
             stream=True,
         ):
-        full_response += response.choices[0].delta.get("content", "")
-        message_placeholder.markdown(full_response + "▌")
+            full_response += response.choices[0].delta.get("content", "")
+            message_placeholder.markdown(full_response + "▌")
 
     message_placeholder.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": full_response})
     response == " "
 
-    print(full_response)
+    # print(full_response)
 
     if full_response == "":
         st.stop()
@@ -109,13 +108,13 @@ if prompt := st.chat_input("Hoe gaat het?"):
         with st.spinner("Bezig met het maken van de afbeelding... "):
             aprompt = (""" 
                        Maak een foto van een broodje volgens dit recept """ + 
-                       ' """ ' + str(full_response[0:700]) + 
+                       ' """ ' + str(full_response[0:1000]) + 
                        ' """ '
                        )
             myresponse = openai.Moderation.create(
                 input=aprompt,
             )
-            print(myresponse)
+            # print(myresponse)
 
             for i in "  ", "-", "1-9", "\n":
                 aprompt = aprompt.replace(i, " ")
@@ -125,10 +124,7 @@ if prompt := st.chat_input("Hoe gaat het?"):
 
             response = openai.Image.create(prompt=str(aprompt), n=1, size="1024x1024")
             image_url = response["data"][0]["url"]
-        # image = Image.open(image_url)
-        # st.image(image, caption="Heerlijk broodje met jouw ingredienten", width=256, use_column_width=False, clamp=True, channels="RGB", output_format="auto")
-        # st.markdown("[Heerlijk broodje](" + str(image_url) + ")")
-
+        
         st.image(
             image_url,
             caption=""" 
