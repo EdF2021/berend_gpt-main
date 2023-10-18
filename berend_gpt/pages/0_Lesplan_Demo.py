@@ -3,7 +3,7 @@ import streamlit as st
 from PIL import Image
 
 from streamlit import sidebar
-from core import ui
+from berend_gpt import ui
 from ui import (
     wrap_doc_in_html,
     is_query_valid,
@@ -12,12 +12,12 @@ from ui import (
     display_file_read_error,
 )
 
-from core.caching import bootstrap_caching
-from core.parsing import read_file
-from core.chunking import chunk_file
-from core.embedding import embed_files
-from core.utils import get_llm
-from core.qa import query_folder
+from berend_gpt.core.caching import bootstrap_caching
+from berend_gpt.core.parsing import read_file
+from berend_gpt.core.chunking import chunk_file
+from berend_gpt.core.embedding import embed_files
+from berend_gpt.core.utils import get_llm
+from berend_gpt.core.qa import query_folder
 import tiktoken
 
 
@@ -25,7 +25,7 @@ EMBEDDING = "openai"
 VECTOR_STORE = "faiss"
 MODEL_LIST = ["gpt-3.5-turbo", "gpt-4","gpt-3.5-turbo-16k"]
 
-image = Image.open('images/producttoer.jpeg')
+image = Image.open('/berend_gpt/images/producttoer.jpeg')
 # Uncomment to enable debug mode
 # MODEL_LIST.insert(0, "debug")
 
