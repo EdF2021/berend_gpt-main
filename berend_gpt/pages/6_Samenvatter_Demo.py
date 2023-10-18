@@ -25,7 +25,7 @@ EMBEDDING = "openai"
 VECTOR_STORE = "faiss"
 MODEL_LIST = ["gpt-3.5-turbo", "gpt-4", "gpt-3.5-turbo-16k"]
 
-image = Image.open("images/producttoer.jpeg")
+image = Image.open("berend_gpt/images/producttoer.jpeg")
 # Uncomment to enable debug mode
 # MODEL_LIST.insert(0, "debug")
 
