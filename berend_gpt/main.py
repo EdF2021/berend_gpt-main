@@ -72,8 +72,9 @@ with col1:
     st.markdown(">> Skills van Berend zijn **Powered By OpenAI**")
 with col2:
     st.image(image, caption=None, use_column_width=True, clamp=True, channels="RGB", output_format="auto")
-    st.markdown(""" :question: Heb je hulp nodig bij een specifieke taak, dan vraag je Berend om een bijpassende skill bij de Basis te pluggen. 
-    **Jij kiest op basis van je klus de bijpassende skills voor Berend.** [^1] """) 
+    st.markdown(""" Heb je meer nodig dan de basis omdat je een specifieke klus moet klaren, 
+    dan kan Berend-Botje een bijpassende skill voor je gebruiken.\\nn 
+    **Jij kiest op basis van je klus de bijpassende skills die Berend gaat inzetten** [^1] """) 
     
 st.markdown(""" :[^1]:rotating_light: *Belangrijk voordeel van Berend-Botje ten opzichte van andere aanbieders is dat jouw persoonlijke informatie, 
 binnen jouw persoonlijke, eigen omgeving blijft!  Nadat een sessie wordt afgesloren blijft er dus geen data achter die wij of derden kunnen gebruiken!* 
