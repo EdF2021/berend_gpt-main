@@ -167,7 +167,7 @@ def maakLesplan():
         llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0.3)
         result = query_folder(
             folder_index=folder_index,
-            query += """ Maak nu een lesplan voor 1 les over het onderwerp en lesdoel die de docent in de vraag heeft genoemd, 
+            query = query + """ Maak nu een lesplan voor 1 les over het onderwerp en lesdoel die de docent in de vraag heeft genoemd, 
                 en gebruik ook wat er in het ingelezen document over dit onderwerp staat. Als de docent geen onderwerp heeft geformuleerd in de vraag stop je.
                 En is je antwoord: 'Geef een onderwerp van de les op'. Je zerzint nooit zelf het onderwerp!!!  
                 Als er geen lesdoel is genoemd gebruik je het een algemene doel van elke les, en dat  is dat studenten de les begrepen moeten hebben, en eventueel het geleerde ook praktisch kunnen toepassen. 
@@ -179,6 +179,7 @@ def maakLesplan():
                 return_all=return_all_chunks,
                 llm=llm,
         )
+        
         answer_col, sources_col = st.columns(2)
         with answer_col:
             st.markdown("#### Lesplan ")
