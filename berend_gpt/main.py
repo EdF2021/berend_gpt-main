@@ -64,8 +64,8 @@ with col1:
     st.header(":genie: Welkom bij Berend-Botje")     
     st.markdown("""
     ###### Berend-Botje is een slimme AI assistent met skills die perfect aansluiten bij het principe van **Smart Working** ###### """)
-    st.markdown("""
-    ####### Berend-Botje Basis:male_mage:, is een ChatGPT kloon en staat altijd voor je klaar om snel je vragen te beantwoorden. 
+    st.markdown(
+        """ ###### Berend-Botje Basis:male_mage:, is een ChatGPT kloon en staat altijd voor je klaar om snel je vragen te beantwoorden. 
     Heb je hulp nodig bij een specifieke taak, dan vraag je Berend om een bijpassende skill bij de Basis in te pluggen. 
     >> Alle skills van Berend zijn **Powered By OpenAI**
     """ 
