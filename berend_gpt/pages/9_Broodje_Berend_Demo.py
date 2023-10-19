@@ -99,32 +99,28 @@ if prompt := st.chat_input("Hoe gaat het?"):
             message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": full_response})
-        with st.spinner("Bezig met het maken van de afbeelding... "):
-            aprompt = (""" 
-                       Maak een foto van een broodje volgens dit recept """ + 
-                       ' """ ' + str(full_response[0:1000]) + 
-                       ' """ '
-                       )
-            myresponse = openai.Moderation.create(
-                input=aprompt,
-            )
-            st.echo(myresponse)
+if full_response == "":
+    st.stop()
+    
+with st.spinner("Bezig met het maken van de afbeelding... "):
+        aprompt = (
+            """ Maak een foto van een broodje volgens dit recept """ + ' """ ' + str(full_response[0:800]) + ' """ ')
+        myresponse = openai.Moderation.create(
+            input=aprompt,
+        )
+        st.write(myresponse)
 
-            for i in "  ", "-", "1-9", "\n":
-                aprompt = aprompt.replace(i, " ")
+        for i in "  ", "-", "1-9", "\n":
+            aprompt = aprompt.replace(i, " ")
 
-            aprompt = aprompt.replace("  ", " ")
-            # print(aprompt)
+        aprompt = aprompt.replace("  ", " ")
+        # print(aprompt)
 
-            response = openai.Image.create(prompt=str(aprompt), n=1, size="1024x1024")
-            image_url = response["data"][0]["url"]
-            st.write(response['data'][0]['url'])
+        response = openai.Image.create(prompt=str(aprompt), n=1, size="1024x1024")
+        image_url = response["data"][0]["url"]
+        st.write(response['data'][0]['url'])
                     
-            st.image(image_url, caption=""" 
+        st.image(image_url, caption=""" 
                 ### Het heerlijke broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE** """, width=340,
-            )
-            full_response = ""
+        )
     
-    
-
-# print(full_response)
