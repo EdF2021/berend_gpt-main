@@ -52,7 +52,7 @@ uploaded_file = st.file_uploader(
 )
 
 
-# openai.api_key = st.secrets["OPENAI_API_KEY"]
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = "gpt-3.5-turbo"
@@ -99,6 +99,8 @@ if prompt := st.chat_input("Hoe gaat het?"):
             message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": full_response})
+        
+    if full_response := "":
         with st.spinner("Bezig met het maken van de afbeelding... "):
             aprompt = (""" 
                        Maak een foto van een broodje volgens dit recept """ + 
@@ -119,10 +121,12 @@ if prompt := st.chat_input("Hoe gaat het?"):
             response = openai.Image.create(prompt=str(aprompt), n=1, size="1024x1024")
             image_url = response["data"][0]["url"]
             st.write(response['data'][0]['url'])
-            
-    st.image(image_url, caption=""" 
+                    
+            st.image(image_url, caption=""" 
                 ### Het heerlijke broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE** """, width=340,
             )
+            full_response = ""
+    
     
 
-    # print(full_response)
+# print(full_response)
