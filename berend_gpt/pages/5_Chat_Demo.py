@@ -15,18 +15,20 @@ st.set_page_config(
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header(":genie: Berend-Botje Skills" )
-    st.subheader(":male-teacher: De Basis - ChatGPT kloon - \n*waarom zou je moeilijk doen ....?* ")
-        st.markdown(""" Dit is Berend's ChatBot. Een kloon van ChatGPT, en gebruikmakend van het gpt-3.5-turbo model. 
-        Dat betekent dat je vragen snel door Berend worden beantwoord, 
-        maar ook dat er beperkingen zijn zoals: 
-        - de kennis van Berend gaat tot 2021, omdat het model getraind is met data tot aan 2021.
-        - dat niet alles wat Berend zegt waar hoeft te zijn. 
-                Het wil weleens voorkomen dat de huidige generatie AI modellen, wanneer ze het antwoord niet weten, gewoon wat gaan verzinnen. 
-                Dit fenomeen noemen we hallucineren en kan ook Berend gebeuren. 
-                **Je werkt samen met Berend, waarbij Berend jouw assistent is, maar jij altijd degene moet zijn die bepaalt wat waar is of niet waar***
+        st.header(":genie: Berend-Botje Skills" )
+        st.subheader(":male-teacher: De Basis - ChatGPT kloon - \n*waarom zou je moeilijk doen ....?* ")
+        st.markdown(
+                """ 
+                **Dit is Berend's ChatBot. Een kloon van ChatGPT, en gebruikmakend van het gpt-3.5-turbo model** 
+                Dat betekent dat je vragen snel door Berend worden beantwoord, 
+                maar ook dat er beperkingen zijn zoals: 
+                        - de kennis van Berend gaat tot 2021, omdat het model getraind is met data tot aan 2021.
+                        - dat niet alles wat Berend zegt waar hoeft te zijn. Het wil weleens voorkomen dat de huidige generatie AI modellen, wanneer ze het antwoord niet weten, gewoon wat gaan verzinnen. Dit fenomeen noemen we hallucineren en kan ook Berend gebeuren. 
+                        >> **Je werkt samen met Berend, waarbij Berend jouw assistent is, maar jij altijd degene moet zijn die bepaalt wat waar is of niet waar***
+                """
+        )
 with col2:
-   st.image(image, caption=None, width=240, use_column_width=True, clamp=True, channels="RGB", output_format="auto")
+st.image(image, caption=None, width=240, use_column_width=True, clamp=True, channels="RGB", output_format="auto")
 
 
 
