@@ -250,7 +250,7 @@ with tab1:
         
     # if st.button( "**:blue[ :student: De lesplanner]** ", key="1" ):
     # st.markdown("**1. [De Lesplanner](Lesplan_Demo)**")
-    maakLesplan(True)
+    maakLesplan()
     
 
 st.markdown(""":angel: :gray[ *Disclaimer Aan het gebruik, of resulaten van Berend-Botje Skills kunnen geen rechten worden verleend. Noch zijn wij aansprakelijk voor enig gevolg van dit gebruik. Bedenk dat de voorbeelden die hier getoond worden nog in een premature fase verkeren: het is werk onder constructie...* ]""")
