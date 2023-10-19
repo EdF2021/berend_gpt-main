@@ -28,7 +28,7 @@ with col1:
                 """
         )
 with col2:
-st.image(image, caption=None, width=240, use_column_width=True, clamp=True, channels="RGB", output_format="auto")
+        st.image(image, caption=None, width=240, use_column_width=True, clamp=True, channels="RGB", output_format="auto")
 
 
 
