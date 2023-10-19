@@ -21,6 +21,7 @@ from berend_gpt.core.utils import get_llm
 
 
 LOGGER = get_logger(__name__)
+
 # print(str(__name__))
 
 try:
@@ -34,8 +35,6 @@ image = Image.open("berend_gpt/images/producttoer.jpeg")
 
 # from berend_gpt.components.sidebar import sidebar
 
-
-
 EMBEDDING = "openai"
 VECTOR_STORE = "faiss"
 MODEL_LIST = ["gpt-3.5-turbo", "gpt-4"]
@@ -44,11 +43,11 @@ MODEL_LIST = ["gpt-3.5-turbo", "gpt-4"]
 # MODEL_LIST.insert(0, "debug")
 
 
-########### Pagina Indeling
+########### Pagina Indeling  ################
 
 st.set_page_config( 
-            page_title=":genie:Berend-Botje Skills",
-            page_icon=" :genie: ",
+            page_title=" :genie: Berend-Botje Skills",
+            page_icon=":genie:",
             layout="wide",
             initial_sidebar_state="collapsed",
             menu_items={
@@ -66,35 +65,34 @@ with col1:
     st.markdown("""
     ###### Berend-Botje is een slimme AI assistent met skills die perfect aansluiten bij het principe van **Smart Working** ###### """)
     st.markdown("""
-    ###### Berend-Botje Basis:male_mage:, staat altijd voor je klaar om snel je vragen te beantwoorden. 
-    Heb je hulp nodig bij een specifieke taak, dan vraag je Berend om bijpassende Skills in de Basis in te pluggen. 
-    >> Al onze AI Skills zijn **Powered By OpenAI**
+    ####### Berend-Botje Basis:male_mage:, is een ChatGPT kloon en staat altijd voor je klaar om snel je vragen te beantwoorden. 
+    Heb je hulp nodig bij een specifieke taak, dan vraag je Berend om een bijpassende skill bij de Basis in te pluggen. 
+    >> Alle skills van Berend zijn **Powered By OpenAI**
     """ 
     )
 with col2:
     st.image(image, caption=None, use_column_width=True, clamp=True, channels="RGB", output_format="auto")
     st.markdown("**Jij kiest op basis van je klus de bijpassende skills voor Berend.** [^1] ") 
     
-st.markdown(""" :[^1]  :rotating_light:  *Belangrijk voordeel van Berend-Botje ten opzichte van andere aanbieders is dat niet alleen jouw persoonlijke informatie veilig is, maar ook de informatie van je werk, binnen jouw eigen omgeving blijft!  Nadat een sessie wordt afgesloren blijft er geen data achter die wij of derden kunnen gebruiken!* 
+st.markdown(""":[^1]:rotating_light: *Belangrijk voordeel van Berend-Botje ten opzichte van andere aanbieders is dat jouw persoonlijke informatie, 
+binnen jouw persoonlijke, eigen omgeving blijft!  Nadat een sessie wordt afgesloren blijft er dus geen data achter die wij of derden kunnen gebruiken!* 
 """)
 st.markdown("------------------------") 
 
 
  
-def maakLesplan(skills):
-    
-    if skills:
-        uploaded_file = False
-        chunked_file = ""
-        file = ""
-        files = ""
-        folder_index = ""
-        query = ""
-        submit = ""
-        llm = ""
-        return_all = ""
-        return_all_chunks = ""
-        
+def maakLesplan():
+    uploaded_file = False
+    chunked_file = ""
+    file = ""
+    files = ""
+    folder_index = ""
+    query = ""
+    submit = ""
+    llm = ""
+    return_all = ""
+    return_all_chunks = ""
+
         
     # Enable caching for expensive functions
     bootstrap_caching()
@@ -106,13 +104,6 @@ def maakLesplan(skills):
     # openai_api_key = st.session_state.get("OPENAI_API_KEY")
     
     
-    if not openai_api_key:
-        st.warning(
-            "Enter your OpenAI API key in the sidebar. You can get a key at"
-            " https://platform.openai.com/account/api-keys."
-        )
-    
-    
     uploaded_file = st.file_uploader(
         " **:red[Upload een pdf, docx, of txt bestand]** ",
         type=["pdf", "docx", "txt"],
@@ -122,12 +113,14 @@ def maakLesplan(skills):
     model: str = st.selectbox("Model", options=MODEL_LIST)  # type: ignore
     
     with st.expander("Advanced Options"):
-        return_all_chunks = st.checkbox("Show all chunks retrieved from vector search")
-        show_full_doc = st.checkbox("Show parsed contents of the document")
+        return_all_chunks = st.checkbox("Toon alle chunks die tijdens het zoeken zijn opgehaald")
+        show_full_doc = st.checkbox("Toon de volledige gepaseerde inhoud van het document")
     
     
     if not uploaded_file:
         st.stop()
+        
+    ############ Er is een bestand up geloaded ########
     
     try:
         file = read_file(uploaded_file)
@@ -137,6 +130,7 @@ def maakLesplan(skills):
     chunked_file = chunk_file(file, chunk_size=300, chunk_overlap=0)
     
     if not is_file_valid(file):
+        st.warning('Bestand is niet correct', icon="⚠️")
         st.stop()
     
     
@@ -144,7 +138,7 @@ def maakLesplan(skills):
         st.stop()
     
     
-    with st.spinner("Indexing document... This may take a while⏳"):
+    with st.spinner("Bezig met indexeren document... Dit kan even duren ⏳"):
         folder_index = embed_files(
             files=[chunked_file],
             embedding=EMBEDDING if model != "debug" else "debug",
@@ -153,8 +147,8 @@ def maakLesplan(skills):
         )
     
     with st.form(key="qa_form"):
-        query = st.text_area("Geef hier het onderwerp van de les, en wat je wilt dat de studenten na de les kunnen/weten. ")
-        submit = st.form_submit_button("Submit")
+        query = st.text_area("**Geef hier het onderwerp, en het doel van de les**")
+        submit = st.form_submit_button("Maak het Lesplan")
     
     
     if show_full_doc:
@@ -168,38 +162,41 @@ def maakLesplan(skills):
             st.stop()
     
         # Output Columns
-        query = "Dit is de vraag van de docent: " + str(query) + """ Maak nu een lesplan over het onderwerp en lesdoel die de docent in de vraag heeft genoemd, en gebruik  hier ook gerelateerde inhoud uit het ingelezen document voor.  Als de docent geen onderwerp heeft geformuleerd in de vraag,  dan vraag je daar om.  Ha niet zelf het onderwerp verzinnen. Als het lesdoel ontbreekt gebruik je een algemeen doel van elke les, en dat  is dat studenten de les begrepen moeten hebben, en eventueel het geleerde ook praktisch kunnen toepassen. Gebruik voor het lesplan een verscheidenheid aan lestechnieken en -modaliteiten, waaronder directe instructie, controleren op begrip (inclusief het verzamelen van bewijs met behulp van quizjes, formatieve toetsjes, rubricks, enz, discussies, een boeiende activiteit in de klas of een opdracht. Leg uit waarom je specifiek voor elk kiest.  Publiceer het lesplan in het  Markdown formaat, met duidelijke koppem, en bullets.  GEEF ALTIJD ANTWOORD IN HET NEDERLANDS! """
+        query = "Jij bent een slimme Assistent Bot en je helpt docenten die willen dat je voor 1 les een lesplan maakt. Dit is de vraag van de docent: " + str(query)
         
-        answer_col, sources_col = st.columns(2)
-        
-        llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0)
+        llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0.3)
         result = query_folder(
             folder_index=folder_index,
-            query = "Jij bent een slimme Assistent Bot en je helpt docenten bij het maken van een lesplan voor 1 les.  " +  str(query),
-            return_all=return_all_chunks,
-            llm=llm,
+            query += """ Maak nu een lesplan voor 1 les over het onderwerp en lesdoel die de docent in de vraag heeft genoemd, 
+                en gebruik ook wat er in het ingelezen document over dit onderwerp staat. Als de docent geen onderwerp heeft geformuleerd in de vraag stop je.
+                En is je antwoord: 'Geef een onderwerp van de les op'. Je zerzint nooit zelf het onderwerp!!!  
+                Als er geen lesdoel is genoemd gebruik je het een algemene doel van elke les, en dat  is dat studenten de les begrepen moeten hebben, en eventueel het geleerde ook praktisch kunnen toepassen. 
+                Gebruik voor het lesplan een verscheidenheid aan lestechnieken en -modaliteiten, waaronder directe instructie, 
+                controleren op begrip (inclusief het verzamelen van bewijs met behulp van quizjes, 
+                formatieve toetsen, rubricks, discussies, een boeiende activiteit in de klas of een opdracht. 
+                Leg uit waarom je specifiek voor elk kiest.  
+                Publiceer het lesplan in Markdown formaat, met duidelijke koppen en bullets. GEEF ALTIJD ANTWOORD IN HET NEDERLANDS!"   """,
+                return_all=return_all_chunks,
+                llm=llm,
         )
-    
+        answer_col, sources_col = st.columns(2)
         with answer_col:
             st.markdown("#### Lesplan ")
             st.markdown(result.answer)
     
         with sources_col:
-            st.markdown("#### Bronnen")
-            for source in result.sources:
-                st.markdown(source.page_content)
-                st.markdown(source.metadata["source"])
-                st.markdown("---")
+            if result.sources:
+                st.markdown("#### Bronnen")
+                for source in result.sources:
+                    st.markdown(source.page_content)
+                    st.markdown(source.metadata["source"])
+                    st.markdown("---")
     
 
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["###### De Lesplanner ", " ###### De Notulist  ", " ###### De Dataanalist  ", " ###### De Samenvatter ", " ###### De Broodjesbakker  "])
-st.markdown("--------------------------------------------------- ")
-
-    
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["###### De Lesplanner", " ###### De Notulist", " ###### De Dataanalist", " ###### De Samenvatter", " ###### De Broodjesbakker"])
+st.markdown("--------------------------------------------------- ")    
 with tab2:
-     
-     
     st.header("De Notulist :male-student: \n*waarom zou je moeilijk doen ....?*")
     st.markdown(""" ##### De Notulist :male-student:  helpt bij je het maken van notulen. Geef Berend een audioopname van een overleg, of een ruwe transcript van een overleg, hij maakt de notulen voor je. Voeg je bestand toe door het te slepen in onderstaand vak.  """)
         
