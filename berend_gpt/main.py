@@ -65,16 +65,16 @@ with col1:
     st.markdown("""
     ###### Berend-Botje is een slimme AI assistent met skills die perfect aansluiten bij het principe van **Smart Working** ###### """)
     st.markdown(
-        """ ###### Berend-Botje Basis:male_mage:, is een ChatGPT kloon en staat altijd voor je klaar om snel je vragen te beantwoorden. 
-    Heb je hulp nodig bij een specifieke taak, dan vraag je Berend om een bijpassende skill bij de Basis in te pluggen. 
+        """ Berend-Botje Basis:male_mage:, is een ChatGPT kloon en staat altijd voor je klaar om snel je vragen te beantwoorden. 
     >> Alle skills van Berend zijn **Powered By OpenAI**
     """ 
     )
 with col2:
     st.image(image, caption=None, use_column_width=True, clamp=True, channels="RGB", output_format="auto")
-    st.markdown("**Jij kiest op basis van je klus de bijpassende skills voor Berend.** [^1] ") 
+    st.markdown(""" :question: Heb je hulp nodig bij een specifieke taak, dan vraag je Berend om een bijpassende skill bij de Basis te pluggen. 
+    **Jij kiest op basis van je klus de bijpassende skills voor Berend.** [^1] """) 
     
-st.markdown(""":[^1]:rotating_light: *Belangrijk voordeel van Berend-Botje ten opzichte van andere aanbieders is dat jouw persoonlijke informatie, 
+st.markdown(""" :[^1]:rotating_light: *Belangrijk voordeel van Berend-Botje ten opzichte van andere aanbieders is dat jouw persoonlijke informatie, 
 binnen jouw persoonlijke, eigen omgeving blijft!  Nadat een sessie wordt afgesloren blijft er dus geen data achter die wij of derden kunnen gebruiken!* 
 """)
 st.markdown("------------------------") 
