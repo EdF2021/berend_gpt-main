@@ -51,7 +51,7 @@ uploaded_file = st.file_uploader(
     help="Gescande documenten worden nog niet ondersteund! ",
 )
 
-
+full_response = " "
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 if "openai_model" not in st.session_state:
@@ -86,7 +86,7 @@ if prompt := st.chat_input("Hoe gaat het?"):
         
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        full_response = ""
+        # full_response = ""
         for response in openai.ChatCompletion.create(
             model=st.session_state["openai_model"],
             messages=[
