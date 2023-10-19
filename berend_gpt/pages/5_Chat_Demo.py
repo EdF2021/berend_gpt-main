@@ -30,6 +30,11 @@ with col1:
         )
 with col2:
         st.image(image, caption=None, width=240, use_column_width=True, clamp=True, channels="RGB", output_format="auto")
+        st.markdown("""
+                - **dat niet alles wat Berend zegt de waarheid is. De huidige generatie AI modellen, kunnen, wanneer ze het antwoord niet weten, gewoon wat gaan verzinnen. 
+                        Dit fenomeen noemen we :person_with_probing_cane: *hallucineren* en kan ook Berend gebeuren.** 
+                - **Je werkt samen met Berend, waarbij Berend jouw assistent is, maar jij altijd degene moet zijn die bepaalt wat waar is of niet waar***
+                """)
 
 
 
