@@ -51,11 +51,12 @@ uploaded_file = st.file_uploader(
     help="Gescande documenten worden nog niet ondersteund! ",
 )
 
-full_response = " "
-openai.api_key = st.secrets["OPENAI_API_KEY"]
-prompt = st.chat_input("Hoe gaat het?")
-if prompt == "Hoe gaat het?":
+if not uploaded_file:
     st.stop()
+    
+
+openai.api_key = st.secrets["OPENAI_API_KEY"]
+
     
 
 if "openai_model" not in st.session_state:
@@ -70,7 +71,7 @@ if "messages" not in st.session_state:
         }
     )
 
-# full_response = ""
+full_response = ""
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
