@@ -5,7 +5,7 @@ from PIL import Image
 
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
-image = Image.open('berend_gpt/images/producttoer.jpeg')
+image = Image.open('berend_gpt/images/chatachtergrond.png')
 st.set_page_config(
         page_title="Berend-Botje Skills",
         page_icon="👋",
@@ -15,8 +15,8 @@ st.set_page_config(
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header("📖Berend-Botje Skills" )
-    st.subheader("De ChatGPT kloon\n*waarom zou je moeilijk doen ....?*")
+    st.header(" :genie:Berend-Botje Skills" )
+    st.subheader("De Basis - ChatGPT kloon - \n*waarom zou je moeilijk doen ....?*")
 with col2:
    st.image(image, caption=None, width=240, use_column_width=True, clamp=True, channels="RGB", output_format="auto")
 
