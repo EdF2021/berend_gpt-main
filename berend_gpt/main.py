@@ -66,7 +66,7 @@ with col1:
     ###### Berend-Botje is een slimme AI assistent met skills die perfect aansluiten bij het principe van **Smart Working** ###### """)
     st.markdown(
         """ Berend-Botje Basis:male_mage:, is een ChatGPT kloon en staat altijd voor je klaar om snel je vragen te beantwoorden. """)
-    st.link_button("Naar Berend-Botje Basis","/Chat_Demo")
+    st.link_button("Naar Berend-Botje Basis","https://berendgpt.streamlit.app/Chat_Demo")
     st.markdown(
         """**[De Chatbot](Chat_Demo)**
         >> Alle skills van Berend zijn **Powered By OpenAI**
