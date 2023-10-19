@@ -68,8 +68,8 @@ with col1:
         """ Berend-Botje Basis:male_mage:, is een ChatGPT kloon en staat altijd voor je klaar om snel je vragen te beantwoorden. """)
     # st.link_button("Naar Berend-Botje Basis", 'https://berendgpt.streamlit.app/Chat_Demo/' )
     st.markdown(
-        """**[De Chatbot](Chat_Demo)** laat zien hoe de basis Berend werkt!\n
-        >> *Skills van Berend zijn*  **Powered By OpenAI**""" )
+        """**[De Chatbot](Chat_Demo)** laat zien hoe de basis Berend werkt!""")
+    st.markdown(">> Skills van Berend zijn **Powered By OpenAI**")
 with col2:
     st.image(image, caption=None, use_column_width=True, clamp=True, channels="RGB", output_format="auto")
     st.markdown(""" :question: Heb je hulp nodig bij een specifieke taak, dan vraag je Berend om een bijpassende skill bij de Basis te pluggen. 
