@@ -19,7 +19,7 @@ with col1:
         st.subheader(":male-teacher: De Basis - ChatGPT kloon - \n*waarom zou je moeilijk doen ....?* ")
         st.markdown(
                 """ 
-                **Dit is Berend's ChatBot. Een kloon van ChatGPT, en gebruikmakend van het snelle gpt-3.5-turbo model** 
+                ### Dit is Berend's ChatBot. Een kloon van ChatGPT, en gebruikmakend van het slimme en snelle gpt-3.5-turbo model 
                 
                 ##### Dat betekent dat je vragen snel door Berend worden beantwoord, maar ook dat er beperkingen zijn zoals: 
                 - **de kennis van Berend gaat tot 2021, omdat het model getraind is met data tot aan 2021**
