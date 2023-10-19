@@ -66,7 +66,7 @@ if "messages" not in st.session_state:
         }
     )
 
-full_response = ""
+# full_response = ""
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -74,7 +74,7 @@ for message in st.session_state.messages:
             st.markdown(message["content"])
         
 if prompt := st.chat_input("Hoe gaat het?"):
-    prompt = prompt + " zijn je ingredienten. Maak nu met alleen deze ingredienten een recept voor een heerlijk broodje" 
+    prompt = prompt + " zijn je ingredienten. Gebruik nu alleen deze ingredienten om een recept te maken voor een heerlijk broodje!" 
     st.session_state.messages.append(
         {
             "role": "user",
@@ -99,14 +99,6 @@ if prompt := st.chat_input("Hoe gaat het?"):
             message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": full_response})
-        response == " "
-
-    # print(full_response)
-
-    if full_response == "":
-        st.stop()
-
-    try:
         with st.spinner("Bezig met het maken van de afbeelding... "):
             aprompt = (""" 
                        Maak een foto van een broodje volgens dit recept """ + 
@@ -116,26 +108,21 @@ if prompt := st.chat_input("Hoe gaat het?"):
             myresponse = openai.Moderation.create(
                 input=aprompt,
             )
-            # print(myresponse)
+            st.echo(myresponse)
 
             for i in "  ", "-", "1-9", "\n":
                 aprompt = aprompt.replace(i, " ")
 
             aprompt = aprompt.replace("  ", " ")
-            print(aprompt)
+            # print(aprompt)
 
             response = openai.Image.create(prompt=str(aprompt), n=1, size="1024x1024")
             image_url = response["data"][0]["url"]
-        
-        st.image(
-            image_url,
-            caption=""" 
-            ### Het heerlijke broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE**""",
-            width=340,
-        )
-        # print(response['data'][0]['url'])
-    except openai.error.OpenAIError as e:
-        print(e.http_status)
-        print(e.error)
+            st.write(response['data'][0]['url'])
+            
+    st.image(image_url, caption=""" 
+                ### Het heerlijke broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE** """, width=340,
+            )
+    
 
-    # st.write(image_url)
+    # print(full_response)
