@@ -21,10 +21,10 @@ with col1:
                 """ 
                 ##### Dit is Berend's ChatBot. Een kloon van ChatGPT, en gebruikmakend van het slimme en snelle gpt-3.5-turbo model 
                 
-                ###### Dat betekent dat je vragen snel door Berend worden beantwoord, maar ook dat er beperkingen zijn zoals: 
-                - **de kennis van Berend gaat tot 2021, omdat het model getraind is met data tot aan 2021**
-                - **dat niet alles wat Berend zegt de waargeid is. De huidige generatie AI modellen, kunnen, wanneer ze het antwoord niet weten, gewoon wat gaan verzinnen. 
-                        Dit fenomeen noemen we *hallucineren* en kan ook Berend gebeuren.** 
+                ###### Dat betekent dat je vragen snel :comet: door Berend worden beantwoord, maar ook dat er beperkingen zijn zoals: 
+                - **de kennis van Berend gaat tot :calendar: 2021, omdat het model getraind is met data tot aan 2021**
+                - **dat niet alles wat Berend zegt de waarheid is. De huidige generatie AI modellen, kunnen, wanneer ze het antwoord niet weten, gewoon wat gaan verzinnen. 
+                        Dit fenomeen noemen we :person_with_probing_cane: *hallucineren* en kan ook Berend gebeuren.** 
                 - **Je werkt samen met Berend, waarbij Berend jouw assistent is, maar jij altijd degene moet zijn die bepaalt wat waar is of niet waar***
                 """
         )
