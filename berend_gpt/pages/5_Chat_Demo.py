@@ -19,9 +19,9 @@ with col1:
         st.subheader(":male-teacher: De Basis - ChatGPT kloon - \n*waarom zou je moeilijk doen ....?* ")
         st.markdown(
                 """ 
-                **Dit is Berend's ChatBot. Een kloon van ChatGPT, en gebruikmakend van het gpt-3.5-turbo model** 
-                Dat betekent dat je vragen snel door Berend worden beantwoord, 
-                maar ook dat er beperkingen zijn zoals: 
+                **Dit is Berend's ChatBot. Een kloon van ChatGPT, en gebruikmakend van het snelle gpt-3.5-turbo model** 
+                
+                #### Dat betekent dat je vragen snel door Berend worden beantwoord, maar ook dat er beperkingen zijn zoals: 
                         - de kennis van Berend gaat tot 2021, omdat het model getraind is met data tot aan 2021.
                         - dat niet alles wat Berend zegt waar hoeft te zijn. Het wil weleens voorkomen dat de huidige generatie AI modellen, wanneer ze het antwoord niet weten, gewoon wat gaan verzinnen. Dit fenomeen noemen we hallucineren en kan ook Berend gebeuren. 
                         >> **Je werkt samen met Berend, waarbij Berend jouw assistent is, maar jij altijd degene moet zijn die bepaalt wat waar is of niet waar***
