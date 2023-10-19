@@ -99,8 +99,6 @@ if prompt := st.chat_input("Hoe gaat het?"):
             message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": full_response})
-        
-    if full_response := "":
         with st.spinner("Bezig met het maken van de afbeelding... "):
             aprompt = (""" 
                        Maak een foto van een broodje volgens dit recept """ + 
