@@ -53,6 +53,10 @@ uploaded_file = st.file_uploader(
 
 full_response = " "
 openai.api_key = st.secrets["OPENAI_API_KEY"]
+prompt = st.chat_input("Hoe gaat het?")
+if prompt == "Hoe gaat het?":
+    st.stop()
+    
 
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = "gpt-3.5-turbo"
