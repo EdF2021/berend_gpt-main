@@ -62,30 +62,29 @@ if not uploaded_file:
         st.stop()
 if uploaded_file:
     try:
-        ing_image = Image.open(uploaded_file)
-        response = openai.Image.create_edit(
-            image=open(ing_img, "rb"),
-            prompt="Een broodje met de ingredienten uit {image}",
-            n = 1,
-            size = "512x512"
-        )
-        image_url = response["data"][0]["url"]
-        st.markdown("[Bekijk je broodje](str(response['data'][0]['url']))")
-        st.image(image_url, caption="""### Het heerlijke AI broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE** """, width=340)
-    except openai.error.OpenAIError as e:
-        print(e.http_status)
-        print(e.error)
+        # ing_image = Image.open(uploaded_file)
+        # response = openai.Image.create_edit(
+            # image=open(ing_img, "rb"),
+            # prompt="Een broodje met de ingredienten uit {image}",
+            # n = 1,
+            # size = "512x512"
+        #)
+        # image_url = response["data"][0]["url"]
+        # st.markdown("[Bekijk je broodje](str(response['data'][0]['url']))")
+        # st.image(image_url, caption="""### Het heerlijke AI broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE** """, width=340)
         st.markdown(
             """
             **:female-detective: :camera: Op dit moment ondervinden we een technische storing met de fotoherkenningssoftware. Voer nu zelf de ingredienten in**
             """
         )
+    except openai.error.OpenAIError as e:
+        print(e.http_status)
+        print(e.error)
+        
     if not prompt:
         st.stop()    
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
-
-    
 
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = "gpt-3.5-turbo"
