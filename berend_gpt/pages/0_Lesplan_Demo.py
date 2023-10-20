@@ -31,7 +31,7 @@ image = Image.open('/berend_gpt/images/producttoer.jpeg')
 
 st.set_page_config(
         page_title=":genie:Berend-Botje Skills", 
-        page_icon="👋",
+        page_icon=" :genie: ",
         layout="wide",
         initial_sidebar_state="auto" )
 
@@ -39,19 +39,19 @@ st.set_page_config(
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header(":genie: :infinity: Berend-Botje :genie: " )
-    st.subheader("De Lesplanner :male-student: \n*waarom zou je moeilijk doen ....?")
+    st.header(":genie: Berend-Botje Skills " )
+    st.subheader(" :male-student: De Lesplanner\n*waarom zou je moeilijk doen ....?")
     
 with col2:
    st.image(image, caption=None, use_column_width=True, clamp=True, channels="RGB", output_format="auto")
 
-st.markdown("**De Lesplanner :male-student:  helpt bij het plannen van een les. Geef Berend het onderwerp en doel van de les en hij maakt een lesplan.  Wil je ook content gebruiken? Voeg dan een document toe door het te slepen in onderstaand vak,  en Berend  neemt mee in het lesplan.**")
+st.markdown("** :male-student: De Lesplanner helpt docenten bij het plannen van een les. Geef Berend het onderwerp en doel van de les en hij maakt een lesplan.  Wil je ook content gebruiken? Voeg dan een document toe door het te slepen in onderstaand vak,  en Berend  neemt mee in het lesplan.**")
    
 with st.sidebar:
     st.markdown("""
     #### Hoe werkt de :male-student: Lesplanner?  
     1. **:notebook: Upload een pdf, docx, of txt file📄**
-    2. **:writing_hand: Vraag Berend om een lesplan te maken en geef daarbij duidelijk aan wat het *Onderwerp*,  en *Lesdoel* is. Zodat Berend weet wat de studenten na de les moeten weten/kunnen.** 
+    2. **:writing_hand: Vraag Berend om een lesplan te maken en geef daarbij duidelijk aan wat het *Onderwerp*,  en *Lesdoel* is. Zodat Berend weet wat de studenten na de les moeten kennen/kunnen.** 
     3. **:golf: Klik dan op versturen, en Berend gaat aan de slag**
     """ )
 
@@ -62,9 +62,12 @@ bootstrap_caching()
 # sidebar()
 
 # sleutel = os.getenv("OPENAI_API_KEY")
-openai_api_key = os.getenv("OPENAI_API_KEY")
+try:
+    openai_api_key = os.getenv("OPENAI_API_KEY")
+except:
+    openai_api_key = st.secrets["OPENAI_API_KEY"]
 
-st.session_state.get("OPENAI_API_KEY")
+# st.session_state.get("OPENAI_API_KEY")
 
 
 if not openai_api_key:
@@ -90,8 +93,7 @@ with st.expander("Geavanceerd"):
 if not uploaded_file:
     st.stop()
 
-try:
-    
+try:    
     file = read_file(uploaded_file)
 except Exception as e:
     display_file_read_error(e, file_name=uploaded_file.name)
@@ -101,12 +103,8 @@ with st.spinner("Indexeren van het document... Dit kan even duren⏳"):
 
     if not is_file_valid(file):
         st.stop()
-
-
     if not is_open_ai_key_valid(openai_api_key, model):
         st.stop()
-
-
     
     folder_index = embed_files(
             files=[chunked_file],
@@ -117,7 +115,7 @@ with st.spinner("Indexeren van het document... Dit kan even duren⏳"):
 
 with st.form(key="qa_form"):
     query = st.text_area("Stel hier je vraag.")
-    query += "Antwoord in het Nederlands en maak het lesplan in Markdown Formaat."
+    query = query + "Antwoord in het Nederlands en maak het lesplan in Markdown Formaat."
     submit = st.form_submit_button("Versturen")
     
 
@@ -136,7 +134,7 @@ if submit:
         llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0)
         result = query_folder(
             folder_index=folder_index,
-            query=query,
+            query += query ,
             return_all=return_all_chunks,
             llm=llm,
         )
