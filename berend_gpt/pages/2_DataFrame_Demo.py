@@ -18,17 +18,17 @@ import altair as alt
 import pandas as pd
 from PIL import Image
 import streamlit as st
-from streamlit.hello.utils import show_code
+# from streamlit.hello.utils import show_code
 import openpyxl
 
-image = Image.open('berend_gpt/images/producttoer.jpeg')
+image = Image.open('berend_gpt/images/achtergrond_dataframe.png')
 
-MIJNDATA = "pages/mbo2018-2022.xlsx"
+MIJNDATA = "berend_gpt/pages/mbo2018-2022.xlsx"
 
 def data_frame_demo():
     @st.cache_data
     def get_UN_data():
-        MIJNDATA = "pages/mbo2018-2022.xlsx"
+        MIJNDATA = "berend_gpt/pages/mbo2018-2022.xlsx"
         # AWS_BUCKET_URL = "https://streamlit-demo-data.s3-us-west-2.amazonaws.com"
         df = pd.read_excel(MIJNDATA)
         # print(df.head())
