@@ -51,8 +51,8 @@ with col2:
 
 uploaded_file = st.file_uploader(
     "**:frame_with_picture: :red[Hier je foto uploaden!]**",
-    type=["jpg"],
-    help="Op dit moment ondersteunen we alleen foto's in jpg, jpeg, png formaat ",
+    type=["png"],
+    help="Op dit moment ondersteunen we alleen foto's in png formaat ",
 )
 
 prompt = st.chat_input("Geen foto? Schrijf hier jouw ingredienten")
