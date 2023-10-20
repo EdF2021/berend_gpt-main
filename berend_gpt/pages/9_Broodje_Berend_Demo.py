@@ -93,7 +93,7 @@ for message in st.session_state.messages:
             st.markdown(message["content"])
         
 if prompt:
-    pprompt = prompt + " zijn je ingredienten. Gebruik nu alleen deze ingredienten om een recept te maken voor een heerlijk broodje!" 
+    pprompt = "Je bent een behulpzame assistent bot, en je kan op basis van ingredienten recepten voor heerlijke broodjes maken. Maak nu een recept voor een heerlijk broodje, waarbij je alleen gebruik mag maken van de volgende ingredienten: """ + prompt 
     st.session_state.messages.append(
         {
             "role": "user",
@@ -124,7 +124,7 @@ if full_response == "":
     
 with st.spinner("Bezig met het maken van de afbeelding... "):
         aprompt = (
-            """ Maak een foto van een heerlijk broodje bestaande uit de volgende ingredienten: {prompt} """)
+            """ Maak een foto van een heerlijk broodje en gebruik hiervoor alleen het soort brood, en de ingredienten die hier worden beschreven: {prompt} """)
         myresponse = openai.Moderation.create(
             input=aprompt,
         )
