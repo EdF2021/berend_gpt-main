@@ -124,7 +124,7 @@ if full_response == "":
     
 with st.spinner("Bezig met het maken van de afbeelding... "):
         aprompt = (
-            """ Maak een foto van een heerlijk broodje en gebruik hiervoor alleen het soort brood, en de ingredienten die hier worden beschreven: {prompt} """)
+            """ Maak een foto van een heerlijk broodje en gebruik hiervoor alle ingredienten, ook het soort brood, die hier worden beschreven. Ingredienten: {prompt} """)
         myresponse = openai.Moderation.create(
             input=aprompt,
         )
