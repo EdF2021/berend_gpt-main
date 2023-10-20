@@ -63,7 +63,7 @@ if not uploaded_file:
 if uploaded_file:
     st.markdown(
         """
-        **:female-detective: :camera: Op dit moment ondervinden we een technische storing met de fotoherkenningssoftware. Voor nu zelf even de ingredienten invoeren**
+        **:female-detective: :camera: Op dit moment ondervinden we een technische storing met de fotoherkenningssoftware. Voer nu zelf de ingredienten in**
         """
     )
     if not prompt:
@@ -93,15 +93,15 @@ for message in st.session_state.messages:
             st.markdown(message["content"])
         
 if prompt:
-    prompt = prompt + " zijn je ingredienten. Gebruik nu alleen deze ingredienten om een recept te maken voor een heerlijk broodje!" 
+    pprompt = prompt + " zijn je ingredienten. Gebruik nu alleen deze ingredienten om een recept te maken voor een heerlijk broodje!" 
     st.session_state.messages.append(
         {
             "role": "user",
-            "content": prompt
+            "content": pprompt
         }
     )
     with st.chat_message("user"):
-        st.markdown(prompt)
+        st.markdown(pprompt)
         
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
@@ -124,21 +124,22 @@ if full_response == "":
     
 with st.spinner("Bezig met het maken van de afbeelding... "):
         aprompt = (
-            """ Maak een foto van een broodje volgens dit recept """ + ' """ ' + str(full_response[0:800]) + ' """ ')
+            """ Maak een foto van een heerlijk broodje bestaande uit de volgende ingredienten: {prompt} """)
         myresponse = openai.Moderation.create(
             input=aprompt,
         )
         # st.write(myresponse)
 
-        for i in "  ", "-", "1-9", "\n":
-            aprompt = aprompt.replace(i, " ")
+        # for i in "  ", "-", "1-9", "\n":
+            # aprompt = aprompt.replace(i, " ")
 
-        aprompt = aprompt.replace("  ", " ")
+        # aprompt = aprompt.replace("  ", " ")
         # print(aprompt)
 
         response = openai.Image.create(prompt=str(aprompt), n=1, size="1024x1024")
         image_url = response["data"][0]["url"]
-        st.markdown("[Bekijk je broodje](response['data'][0]['url'])")
+        st.markdown("[Bekijk je broodje](str(response['data'][0]['url']))")
+    
         
         # write(response['data'][0]['url'])
                     
