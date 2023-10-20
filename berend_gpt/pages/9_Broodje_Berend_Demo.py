@@ -8,7 +8,7 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 image = Image.open("berend_gpt/images/broodje_achtergrond.png")
 st.set_page_config(
     page_title="Berend-Botje Skills",
-    page_icon="👋",
+    page_icon=" :genie: ",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -18,18 +18,18 @@ response = ""
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header("Berend-Botje")
+    st.header(" :genie: Berend-Botje Skills")
     st.subheader(
         " :bread: :male-cook: Het broodje van Berend :baguette_bread: :\n*waarom zou je moeilijk doen ....?* "
     )
     st.markdown(
-        """ ##### Zin in een lekker broodje :sandwich:? Gemaakt met wat je in :house: huis hebt? 
+        """ ##### Zin in een lekker :sandwich: broodje, gemaakt met de ingredienten die je in :house: hebt? 
     **Berend's Broodje kan je hierbij helpen**
-    - Maak een foto van wat je in aan spullen in huis hebt: brood, beleg, sla, sausjes, ... ja zelfs de inhoud van je koelkast.
+    - Maak een foto van wat je aan eetbare spulleb in huis hebt: brood, beleg, ui, eieren, sla, sausjes, ... ja zelfs de inhoud van je koelkast.
     - Upload de foto hier
-    - De AI van Berend-Botje verzint dan, met de ingredienten van de foto, een recept zodat je een heerlijk broodje kan gaan maken :cooking:
-    - De AI zal zelfs een poging doen om je broodje alvast op foto te zetten. *Voorlopig nog met wisselend succes :smiley:* 
-    **Eet smakelijk!!** """
+    - De AI van Berend-Botje verzint dan met deze ingredienten een recept voor je waarmee je het overheerlijke broodje maakt :cooking:
+    - Met enig geluk zal de AI zelfs alvast je broodje op de foto zetten. *Met wisselend succes :smiley:* 
+    - **Eet smakelijk!!** """
     )
 
 
@@ -46,9 +46,9 @@ with col2:
 
 
 uploaded_file = st.file_uploader(
-    "**:notebook: Hier je foto uploaden!**",
-    type=["jpg"],
-    help="Gescande documenten worden nog niet ondersteund! ",
+    "**:notebook: :red[Hier je foto uploaden!]**",
+    type=["jpg, jpeg, png"],
+    help="Op dit moment ondersteunen we alleen foto's in jpg, jpeg, png formaat ",
 )
 
 if not uploaded_file:
@@ -67,7 +67,7 @@ if "messages" not in st.session_state:
     st.session_state.messages.append(
         {
             "role": "system", 
-            "content": "Je bent een behulpzame assistent bot, en je kan op basis van ingredienten heerlijke recepten voor broodjes maken."
+            "content": "Je bent een behulpzame assistent bot, en je kan op basis van ingredienten recepten voor heerlijke broodjes maken."
         }
     )
 
@@ -109,7 +109,7 @@ if full_response == "":
     
 with st.spinner("Bezig met het maken van de afbeelding... "):
         aprompt = (
-            """ Maak een foto van een broodje volgens dit recept """ + ' """ ' + str(full_response[0:800]) + ' """ ')
+            """ Maak een foto van een broodje volgens dit recept """ + ' """ ' + str(full_response[0:900]) + ' """ ')
         myresponse = openai.Moderation.create(
             input=aprompt,
         )
