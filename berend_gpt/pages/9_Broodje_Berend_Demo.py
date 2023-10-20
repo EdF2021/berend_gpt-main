@@ -138,7 +138,7 @@ with st.spinner("Bezig met het maken van de afbeelding... "):
 
         response = openai.Image.create(prompt=str(aprompt), n=1, size="1024x1024")
         image_url = response["data"][0]["url"]
-        st.markdown("[Bekijk je broodje](response['data'][0]['url']))
+        st.markdown("[Bekijk je broodje](response['data'][0]['url'])")
         
         # write(response['data'][0]['url'])
                     
