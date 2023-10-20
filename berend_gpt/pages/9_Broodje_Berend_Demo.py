@@ -60,7 +60,12 @@ if not uploaded_file:
     if not prompt:
         st.stop()
 if uploaded_file:
-    st.markdown(""" :female-detective: :camera: Op dit moment ondervinden we een technische storing met de fotoherkenningssoftware. Voor nu zelf even de ingredienten invoeren**""" 
+    st.markdown(
+        """
+        :female-detective: :camera: Op dit moment ondervinden we een technische storing met de fotoherkenningssoftware. 
+        Voor nu zelf even de ingredienten invoeren**
+        """
+    )
     if not prompt:
         st.stop()    
 
