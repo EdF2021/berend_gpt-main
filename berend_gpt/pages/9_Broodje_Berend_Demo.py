@@ -62,15 +62,20 @@ if not uploaded_file:
         st.stop()
 if uploaded_file:
     try:
-        
-        openai.Image.create_edit(
+            
+            response = openai.Image.create_edit(
             image=open(uploaded_file, "rb"),
             prompt="Een broodje met de ingredienten uit {image}",
             n = 1,
             size = "512x512"
         )
-    except:
-        st.markdown(
+            image_url = response["data"][0]["url"]
+            st.markdown("[Bekijk je broodje](str(response['data'][0]['url']))")
+            st.image(image_url, caption="""### Het heerlijke AI broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE** """, width=340)
+    except openai.error.OpenAIError as e:
+            print(e.http_status)
+            print(e.error)
+            st.markdown(
             """
             **:female-detective: :camera: Op dit moment ondervinden we een technische storing met de fotoherkenningssoftware. Voer nu zelf de ingredienten in**
             """
