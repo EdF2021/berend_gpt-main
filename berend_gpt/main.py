@@ -108,8 +108,11 @@ def maakLesplan():
     bootstrap_caching()
     
     # sidebar()
-    
-    # openai_api_key  
+
+    try:
+        openai_api_key = st.secrets["OPENAI_API_KEY"]  
+    except:
+        openai_api_key = os.getenv("OPENAI_API_KEY")
     
     # openai_api_key = st.session_state.get("OPENAI_API_KEY")
     
@@ -177,9 +180,8 @@ def maakLesplan():
         llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0.3)
         result = query_folder(
             folder_index=folder_index,
-            query = query + """ Maak nu een lesplan voor 1 les over het onderwerp en lesdoel die de docent in de vraag heeft genoemd, 
-                en gebruik ook wat er in het ingelezen document over dit onderwerp staat. Als de docent geen onderwerp heeft geformuleerd in de vraag stop je.
-                En is je antwoord: 'Geef een onderwerp van de les op'. Je zerzint nooit zelf het onderwerp!!!  
+            query = query + """ Maak nu een lesplan voor 1 les over het onderwerp en lesdoel die de docent in de vraag heeft genoemd. 
+                Gebruik ook wat er in het ingelezen document over dit onderwerp staat.   
                 Als er geen lesdoel is genoemd gebruik je het een algemene doel van elke les, en dat  is dat studenten de les begrepen moeten hebben, en eventueel het geleerde ook praktisch kunnen toepassen. 
                 Gebruik voor het lesplan een verscheidenheid aan lestechnieken en -modaliteiten, waaronder directe instructie, 
                 controleren op begrip (inclusief het verzamelen van bewijs met behulp van quizjes, 
