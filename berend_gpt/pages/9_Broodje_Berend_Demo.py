@@ -62,8 +62,7 @@ if not uploaded_file:
 if uploaded_file:
     st.markdown(
         """
-        :female-detective: :camera: Op dit moment ondervinden we een technische storing met de fotoherkenningssoftware. 
-        Voor nu zelf even de ingredienten invoeren**
+        **:female-detective: :camera: Op dit moment ondervinden we een technische storing met de fotoherkenningssoftware. Voor nu zelf even de ingredienten invoeren**
         """
     )
     if not prompt:
@@ -124,7 +123,7 @@ if full_response == "":
     
 with st.spinner("Bezig met het maken van de afbeelding... "):
         aprompt = (
-            """ Maak een foto van een broodje volgens dit recept """ + ' """ ' + str(full_response[0:900]) + ' """ ')
+            """ Maak een foto van een broodje volgens dit recept """ + ' """ ' + str(full_response[0:800]) + ' """ ')
         myresponse = openai.Moderation.create(
             input=aprompt,
         )
