@@ -47,7 +47,7 @@ with col2:
 
 uploaded_file = st.file_uploader(
     "**:notebook: :red[Hier je foto uploaden!]**",
-    type=["jpg, jpeg, png"],
+    type=["jpg"],
     help="Op dit moment ondersteunen we alleen foto's in jpg, jpeg, png formaat ",
 )
 
