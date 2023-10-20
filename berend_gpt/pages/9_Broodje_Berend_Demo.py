@@ -136,17 +136,20 @@ if full_response == "":
     st.stop()
     
 with st.spinner("Bezig met het maken van de afbeelding... "):
+        bereidingswijze = str(full_response[100:800]) 
         aprompt = (
-            """ Maak een foto van een heerlijk broodje en gebruik hiervoor alle ingredienten, ook het soort brood, die hier worden beschreven. Ingredienten: {prompt} """)
+            """ Maak een foto van een heerlijk broodje en gebruik hiervoor alle ingredienten, ook het soort brood, die hier worden beschreven.
+                Ingredienten: {prompt} . Het broodje is op deze wijze gemaakt: {bereidingswijze} 
+            """
+        )
         myresponse = openai.Moderation.create(
             input=aprompt,
         )
         # st.write(myresponse)
 
-        # for i in "  ", "-", "1-9", "\n":
-            # aprompt = aprompt.replace(i, " ")
-
-        # aprompt = aprompt.replace("  ", " ")
+        for i in "  ", "-", "1-9", "\n":
+            aprompt = aprompt.replace(i, " ")
+        aprompt = aprompt.replace("  ", " ")
         # print(aprompt)
 
         try:
