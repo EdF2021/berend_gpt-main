@@ -15,6 +15,7 @@ st.set_page_config(
 
 response = ""
 prompt = ""
+aprompt ""
 full_response = ""
 file_uploaded =""
 
@@ -137,7 +138,9 @@ with st.spinner("Bezig met het maken van de afbeelding... "):
 
         response = openai.Image.create(prompt=str(aprompt), n=1, size="1024x1024")
         image_url = response["data"][0]["url"]
-        # st.write(response['data'][0]['url'])
+        st.markdown("[Bekijk je broodje](response['data'][0]['url']))
+        
+        # write(response['data'][0]['url'])
                     
         st.image(image_url, caption=""" 
                 ### Het heerlijke broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE** """, width=340,
