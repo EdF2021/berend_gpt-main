@@ -14,6 +14,9 @@ st.set_page_config(
 )
 
 response = ""
+prompt = ""
+full_response = ""
+file_uploaded =""
 
 col1, col2 = st.columns(2)
 
@@ -51,9 +54,15 @@ uploaded_file = st.file_uploader(
     help="Op dit moment ondersteunen we alleen foto's in jpg, jpeg, png formaat ",
 )
 
+prompt = st.chat_input("Geen foto? Schrijf dan hier dan jouw ingredienten ")
+
 if not uploaded_file:
-    st.stop()
-    
+    if not prompt:
+        st.stop()
+if uploaded_file:
+    st.markdown(""" :female-detective: :camera: Op dit moment ondervinden we een technische storing met de fotoherkenningssoftware. Voor nu zelf even de ingredienten invoeren**""" 
+    if not prompt:
+        st.stop()    
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
@@ -78,7 +87,7 @@ for message in st.session_state.messages:
         if message["role"] != "system":
             st.markdown(message["content"])
         
-if prompt := st.chat_input("Hoe gaat het?"):
+if prompt:
     prompt = prompt + " zijn je ingredienten. Gebruik nu alleen deze ingredienten om een recept te maken voor een heerlijk broodje!" 
     st.session_state.messages.append(
         {
@@ -104,6 +113,7 @@ if prompt := st.chat_input("Hoe gaat het?"):
             message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": full_response})
+    
 if full_response == "":
     st.stop()
     
