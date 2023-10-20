@@ -15,7 +15,7 @@ st.set_page_config(
 
 response = ""
 prompt = ""
-aprompt ""
+aprompt = ""
 full_response = ""
 file_uploaded =""
 
