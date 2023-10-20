@@ -62,8 +62,9 @@ if not uploaded_file:
         st.stop()
 if uploaded_file:
     try:
+        ing_image = Image.open(uploaded_file)
         response = openai.Image.create_edit(
-            image=open(str(uploaded_file), "rb"),
+            image=open(ing_img, "rb"),
             prompt="Een broodje met de ingredienten uit {image}",
             n = 1,
             size = "512x512"
