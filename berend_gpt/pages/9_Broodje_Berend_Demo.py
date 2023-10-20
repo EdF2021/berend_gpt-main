@@ -23,12 +23,12 @@ with col1:
         " :bread: :male-cook: Het broodje van Berend :baguette_bread: :\n*waarom zou je moeilijk doen ....?* "
     )
     st.markdown(
-        """ ##### Heb je rond deze tijd ook zo'n trek in een lekker broodje :sandwich: maar je hebt geen zin om de deur uit te gaan :house: ? 
-    **Dan heeft Berend's Broodje de oplossing.**
-    - Stuur een foto van wat je in huis hebt: brood, beleg, sla, sausjes, ... wat je maar wilt 
-    - De AI van Berend maakt dan een recept voor je om snel een heerlijk broodje te maken :cooking:  
-    - Hij stuurt zelfs, met hulp van AI, een foto mee, om je alvast lekker te maken
-
+        """ ##### Zin in een lekker broodje :sandwich:? Gemaakt met wat je in :house: huis hebt? 
+    **Berend's Broodje kan je hierbij helpen**
+    - Maak een foto van wat je in aan spullen in huis hebt: brood, beleg, sla, sausjes, ... ja zelfs de inhoud van je koelkast.
+    - Upload de foto hier
+    - De AI van Berend-Botje verzint dan, met de ingredienten van de foto, een recept zodat je een heerlijk broodje kan gaan maken :cooking:
+    - De AI zal zelfs een poging doen om je broodje alvast op foto te zetten. *Voorlopig nog met wisselend succes :smiley:* 
     **Eet smakelijk!!** """
     )
 
@@ -113,7 +113,7 @@ with st.spinner("Bezig met het maken van de afbeelding... "):
         myresponse = openai.Moderation.create(
             input=aprompt,
         )
-        st.write(myresponse)
+        # st.write(myresponse)
 
         for i in "  ", "-", "1-9", "\n":
             aprompt = aprompt.replace(i, " ")
@@ -123,7 +123,7 @@ with st.spinner("Bezig met het maken van de afbeelding... "):
 
         response = openai.Image.create(prompt=str(aprompt), n=1, size="1024x1024")
         image_url = response["data"][0]["url"]
-        st.write(response['data'][0]['url'])
+        # st.write(response['data'][0]['url'])
                     
         st.image(image_url, caption=""" 
                 ### Het heerlijke broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE** """, width=340,
