@@ -46,7 +46,7 @@ MODEL_LIST = ["gpt-3.5-turbo", "gpt-4"]
 ########### Pagina Indeling  ################
 
 st.set_page_config( 
-            page_title=" :genie: Berend-Botje Skills",
+            page_title=" :genie: Berend Skills",
             page_icon=":genie:",
             layout="wide",
             initial_sidebar_state="collapsed",
@@ -61,32 +61,32 @@ st.set_page_config(
 
 col1, col2 = st.columns(2)
 with col1:
-    st.header(":genie: Welkom bij Berend-Botje")     
+    st.header(":genie: Welkom bij Berend Skills")     
     st.markdown("""
-    ###### Berend-Botje is een slimme AI assistent met skills die perfect aansluiten bij het principe **Smart Working** ###### """)
+    ###### Berend is een slimme AI assistent met skills die perfect aansluiten bij het populaire **Smart Working** principe ###### """)
     st.markdown(
-        """ Berend-Botje is als basis:male_mage: gemodelleerd naar ChatGPT van OpenAI. Berend-Botje Basis  staat dan ook altijd voor je klaar om snel je vragen te beantwoorden. """)
+        """ De basis van Berend is :male_mage: gemodelleerd naar ChatGPT van OpenAI. Berend Basis  staat dan ook altijd voor je klaar om snel je vragen te beantwoorden. """)
     # st.link_button("Naar Berend-Botje Basis", 'https://berendgpt.streamlit.app/Chat_Demo/' )
     st.markdown(
         """**[De Chatbot](Chat_Demo)** laat zien hoe de basis Berend werkt!""")   
     st.markdown(
         """ 
             Heb je meer nodig dan de basis omdat je een specifieke klus moet klaren, 
-            dan kan Berend_Botje een bijpassende skill gebruiken, die op maat van de te klaren klus is
+            dan kan Berend een bijpassende skill gebruiken, die op maat is toegesneden op de te klaren klus
         """
     ) 
      
 with col2:
     st.image(image, caption=None, use_column_width=True, clamp=True, channels="RGB", output_format="auto")
-    st.markdown("""**Jij kiest op basis van je klus de bijpassende skills die Berend gaat inzetten** [^1] """) 
+    st.markdown("""**Jij kiest op basis van je klus de bijpassende skills die Berend gaat inzetten** """) 
     
 st.markdown(
         """ 
-                :[^1]:rotating_light: *Belangrijk voordeel van Berend-Botje ten opzichte van andere aanbieders is dat jouw persoonlijke informatie, 
+                :cool: *Belangrijk voordeel van Berend-Botje ten opzichte van andere aanbieders is dat jouw persoonlijke informatie, 
                 binnen jouw persoonlijke, eigen omgeving blijft!  Nadat een sessie wordt afgesloren blijft er dus geen data achter die wij of derden kunnen gebruiken!* 
         """
     )
-st.markdown("Alle skills van Berend-Botje zijn **Powered By OpenAI**")
+st.markdown("All Skills are **Powered By OpenAI**")
 st.markdown("------------------------") 
 
 
