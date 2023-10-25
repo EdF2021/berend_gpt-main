@@ -3,7 +3,10 @@ import openai
 import streamlit as st
 from PIL import Image
 
-openai_api_key = st.secrets["OPENAI_API_KEY"]
+try:
+    openai_api_key = os.getenv("OPENAI_API_KEY")
+except:
+    openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 image = Image.open("berend_gpt/images/broodje_achtergrond.png")
 st.set_page_config(
@@ -48,6 +51,17 @@ with col2:
         output_format="auto",
     )
 
+
+
+img_file_buffer = st.camera_input("Maak een foto")
+
+if img_file_buffer is not None:
+    # To read image file buffer as bytes:
+    bytes_data = img_file_buffer.getvalue()
+    # Check the type of bytes_data:
+    # Should output: <class 'bytes'>
+    st.write(type(bytes_data))
+    
 
 uploaded_file = st.file_uploader(
     "**:frame_with_picture: :red[Hier je foto uploaden!]**",
