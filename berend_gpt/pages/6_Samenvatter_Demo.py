@@ -23,7 +23,7 @@ from berend_gpt.core.qa import query_folder
 
 EMBEDDING = "openai"
 VECTOR_STORE = "faiss"
-MODEL_LIST = ["gpt-3.5-turbo", "gpt-4", "gpt-3.5-turbo-16k"]
+MODEL_LIST = ["gpt-3.5-turbo", "gpt-4"]
 
 image = Image.open("berend_gpt/images/achtergrond_samenvatter.png")
 # Uncomment to enable debug mode
@@ -66,7 +66,10 @@ bootstrap_caching()
 # sidebar()
 
 # sleutel = os.getenv("OPENAI_API_KEY")
-openai_api_key = os.getenv("OPENAI_API_KEY")
+try:
+    openai_api_key = os.getenv("OPENAI_API_KEY")
+except:
+    openai_api_key = os.secrets["OPENAI_API_KEY"]
 
 st.session_state.get("OPENAI_API_KEY")
 
@@ -86,9 +89,8 @@ uploaded_file = st.file_uploader(
 
 model: str = st.selectbox("Model", options=MODEL_LIST)  # type: ignore
 
-with st.expander("Geavanceerd"):
-    return_all_chunks = st.checkbox("Show all chunks retrieved from vector search")
-    show_full_doc = st.checkbox("Show parsed contents of the document")
+return_all_chunks = True
+show_full_doc = False
 
 
 if not uploaded_file:
@@ -100,13 +102,12 @@ except Exception as e:
     display_file_read_error(e, file_name=uploaded_file.name)
 
 with st.spinner("Indexeren van het document... Dit kan even duren⏳"):
-    chunked_file = chunk_file(file, chunk_size=300, chunk_overlap=0)
-
+    
     if not is_file_valid(file):
         st.stop()
 
-    if not is_open_ai_key_valid(openai_api_key, model):
-        st.stop()
+    
+    chunked_file = chunk_file(file, chunk_size=300, chunk_overlap=0)
 
     folder_index = embed_files(
         files=[chunked_file],
@@ -115,36 +116,39 @@ with st.spinner("Indexeren van het document... Dit kan even duren⏳"):
         openai_api_key=openai_api_key,
     )
     if uploaded_file:
-        llm2 = get_llm(
+        llm = get_llm(
             model=model, 
             openai_api_key=openai_api_key, 
             temperature=0
             )
-        result = query_folder(
+        
+        
+
+# st.button("Onderwerp", key="Onderwerp")
+# st.button("Lesdoel", key="Lesdoel")
+
+result = query_folder(
             folder_index=folder_index,
             query="""Jij ben een slimme Assistent Bot, en je kan heel goed samenvattingen maken van omvangrijke documenten.
-        Maak nu een goede uitgebreide samenvatting van het document dat net is ingelezen. De samenvatting moet alle  belangrijke thema's bevatten die in het document worden genoemd. Maak de samenvatting in het Markdown formaat, en gebruik koppen en subkoppen om meer overzicht te geven, en om zo de belangrijke thema's te benadrukken.
+            Maak nu een goede uitgebreide samenvatting van het document dat net is ingelezen. De samenvatting moet alle  belangrijke thema's bevatten die in het document worden genoemd. Maak de samenvatting in het Markdown formaat, en gebruik koppen en subkoppen om meer overzicht te geven, en om zo de belangrijke thema's te benadrukken.
         Nogmaals de samenvatting mag best uitgebreid zijn, maar moet altijd in HET NEDERLANDS!!""",
             return_all=return_all_chunks,
             llm=llm2,
         )
         st.markdown(result.answer)
 
-
-# st.button("Onderwerp", key="Onderwerp")
-# st.button("Lesdoel", key="Lesdoel")
-
-
 with st.form(key="qa_form"):
-    query = """ 
-            Maak gebruik van het ingelezen document om de vragen 
-            van de gebruiker goed te kunnen beantwoorden.
-            Je toon is zakelijk, en je doet je best om de vragen te beantwoorden. 
-                Als je iets niet weet dan ga je niets verzinnen, 
-                maar zeg je: 'Deze vraag kan ik niet beantwoorden'.
-                Gebruik het markdown formaat. GEEF ANTWOORD IN HET NEDERLANDS!"""
-
-    query += st.text_input("**Maak een samenvatting")
+    query="""Jij ben een slimme Assistent Bot, en je kan heel goed samenvattingen maken van omvangrijke documenten op basis van wat de gebruiker vraagt. 
+            Je toon is zakelijk, en je doet je best om de vragen te beantwoorden. Als je iets niet weet dan ga je niets verzinnen, 
+            maar zeg je: 'Deze vraag kan ik niet beantwoorden'.
+            Dit is de vraag van de gebruiker: 
+            """
+            
+    query += st.text_input("**Maak een samenvatting") + """ Maak nu een goede uitgebreide samenvatting op basis van de vraag van de gebruiker, 
+                            waarbij je het ingelezen document als bron gebruikt. 
+                            Presenteer de samenvatting in het Markdown formaat, en gebruik koppen, subkoppen, bullits indien nodig. 
+                            Maak de samenvatting altijd in HET NEDERLANDS!! 
+                            """ 
 
     submit = st.form_submit_button("Sturen")
 
@@ -170,17 +174,16 @@ if submit:
             return_all=return_all_chunks,
             llm=llm,
         )
-        # answer_col, sources_col = st.columns(2)
+        
+        answer_col, sources_col = st.columns(2)
 
-        # with answer_col:
-        st.markdown(
-            "#### Samenvatting \n['Berend-Botje Skills']('https://berend-botje.online')"
-        )
-        st.markdown(result.answer)
+        with answer_col:
+            st.markdown(" #### Samenvatting \n['Berend-Botje Skills']('https://berendbotjeskills.azurewebsites.net')")
+            st.markdown(result.answer)
 
-        # with sources_col:
-        # st.markdown("#### Bronnen")
-        # for source in result.sources:
-        # st.markdown(source.page_content)
-        # st.markdown(source.metadata["source"])
-        # st.markdown("---")
+        with sources_col:
+            st.markdown("#### Bronnen")
+            for source in result.sources:
+            st.markdown(source.page_content)
+            st.markdown(source.metadata["source"])
+            st.markdown("---")
