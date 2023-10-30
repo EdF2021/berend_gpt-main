@@ -23,7 +23,7 @@ from berend_gpt.core.qa import query_folder
 
 EMBEDDING = "openai"
 VECTOR_STORE = "faiss"
-MODEL_LIST = ["gpt-3.5-turbo", "gpt-4"]
+MODEL_LIST = ["gpt-3.5-turbo", "gpt-4","gpt-4-0613"]
 
 image = Image.open("berend_gpt/images/achtergrond_samenvatter.png")
 # Uncomment to enable debug mode
