@@ -30,7 +30,7 @@ image = Image.open("berend_gpt/images/achtergrond_samenvatter.png")
 # MODEL_LIST.insert(0, "debug")
 
 st.set_page_config(
-    page_title=" :genie: Berend Skills",
+    page_title="Berend Skills",
     page_icon=":genie:",
     layout="wide",
     initial_sidebar_state="collapsed",
