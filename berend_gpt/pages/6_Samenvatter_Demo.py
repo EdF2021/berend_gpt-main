@@ -30,24 +30,25 @@ image = Image.open("berend_gpt/images/achtergrond_samenvatter.png")
 # MODEL_LIST.insert(0, "debug")
 
 st.set_page_config(
-    page_title="Berend-Botje Skills",
-    page_icon="👋",
-    layout="wide",
+    page_title="Berend Skills",
+    page_icon=" :genie: ",
+    layout="centered",
     initial_sidebar_state="collapsed",
+    menu_items=None
 )
 
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header("Berend-Botje Skills")
+    st.header("Berend Skills")
     st.subheader(" :bookmark_tabs: De Samenvatter\n*waarom zou je moeilijk doen ....?*")
     st.markdown(""" ##### De Samenvatter kan diverse omvangrijke documenten voor u samen vatten.""")
     st.markdown("""
                 ##### Hoe werkt het ? 
                 1. **Upload een pdf, docx, of txt file📄**
-                2. **Vraag of Berend een samenvatting voor je wilt maken.  💬**
-                3. **En Berend gaat aan de slag**"""
+                2. **Geef aan waar je een samenvatting van wilt ( bijv. het hele document, of een bepaald thema, onderdeel, hoofdstuk ) 💬**
+                3. **Klik op de *Maak samenvatting* button** """
                 )
 with col2:
     st.image(
@@ -56,7 +57,7 @@ with col2:
         use_column_width=True,
         clamp=True,
         channels="RGB",
-        output_format="png",
+        output_format="auto",
     )
 
 
@@ -82,7 +83,7 @@ if not openai_api_key:
 
 
 uploaded_file = st.file_uploader(
-    "**HIER KUN JE JOUW PDF, DOCX, OF TXT BESTAND UPLOADEN!!**",
+    "**:point_down: HIER JE PDF, DOCX, OF TXT BESTAND UPLOADEN!!**",
     type=["pdf", "docx", "txt"],
     help="Gescande documenten worden nog niet ondersteund! ",
 )
@@ -101,56 +102,42 @@ try:
 except Exception as e:
     display_file_read_error(e, file_name=uploaded_file.name)
 
-with st.spinner("Indexeren van het document... Dit kan even duren⏳"):
+if uploaded_file:
+    with st.spinner("Indexeren van het document... Dit kan even duren⏳"):
     
-    if not is_file_valid(file):
-        st.stop()
-
-    
-    chunked_file = chunk_file(file, chunk_size=300, chunk_overlap=0)
-
-    folder_index = embed_files(
-        files=[chunked_file],
-        embedding=EMBEDDING if model != "debug" else "debug",
-        vector_store=VECTOR_STORE if model != "debug" else "debug",
-        openai_api_key=openai_api_key,
-    )
-    if uploaded_file:
-        llm = get_llm(
-            model=model, 
-            openai_api_key=openai_api_key, 
-            temperature=0
-            )
+        if not is_file_valid(file):
+            st.stop()
         
-        
+        chunked_file = chunk_file(file, chunk_size=300, chunk_overlap=0)
 
-# st.button("Onderwerp", key="Onderwerp")
-# st.button("Lesdoel", key="Lesdoel")
-
+        folder_index = embed_files(
+            files=[chunked_file],
+            embedding=EMBEDDING if model != "debug" else "debug",
+            vector_store=VECTOR_STORE if model != "debug" else "debug",
+            openai_api_key=openai_api_key,
+        )
+         
     with st.form(key="qa_form"):
-        query="""Jij ben een slimme Assistent Bot, en je kan heel goed samenvattingen maken van omvangrijke documenten op basis van wat de gebruiker vraagt. 
-                Je toon is zakelijk, en je doet je best om de vragen te beantwoorden. Als je iets niet weet dan ga je niets verzinnen, 
-                maar zeg je: 'Deze vraag kan ik niet beantwoorden'.
-                Dit is de vraag van de gebruiker: 
+        query="""Jij ben een slimme Assistent Bot, en je kan heel goed samenvattingen maken van omvangrijke documenten.
+                Je maakt een samenvatting van een ingelezen document op basis van wat de gebruiker vraagt. 
+                Als je iets niet weet dan ga je niets verzinnen, maar zeg je: 'Deze vraag kan ik niet beantwoorden'.
+                Dit is de vraag van de gebruiker:\n 
                 """
-        query += st.text_input("**Maak een samenvatting**") + """ 
-                                Maak nu een goede uitgebreide samenvatting op basis van de vraag van de gebruiker, 
-                                waarbij je het ingelezen document als bron gebruikt. 
-                                Presenteer de samenvatting in het Markdown formaat, en gebruik koppen, subkoppen, bullits indien nodig. 
-                                Maak de samenvatting altijd in HET NEDERLANDS!! 
+        query += st.text_input("Maak een samenvatting over ") + """\n 
+                                Maak nu een goede uitgebreide samenvatting, in het Nederlands, op basis van de gestelde vraag van de gebruiker, 
+                                en gebruik hierbij het ingelezen document als bron. 
+                                Presenteer de samenvatting in het Markdown formaat, en gebruik koppen, subkoppen, bullits om structuur aan te brengen.  
                                 """ 
-        submit = st.form_submit_button("Sturen")
+        submit = st.form_submit_button("Maak samenvatting")
 
 
     if submit:
-        with st.spinner("Bezig met je vraag ... ⏳"):
+        with st.spinner("Bezig met de samenvatting ... ⏳"):
             if not is_query_valid(query):
                 st.stop()
 
             # Output Columns
-
-            print(query),
-            llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0)
+            llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0.3)
             result = query_folder(
                 folder_index=folder_index,
                 query=query,
@@ -161,12 +148,12 @@ with st.spinner("Indexeren van het document... Dit kan even duren⏳"):
             answer_col, sources_col = st.columns(2)
 
             with answer_col:
-                st.markdown(" #### Samenvatting \n['Berend-Botje Skills']('https://berendbotjeskills.azurewebsites.net')")
+                st.markdown(" #### Samenvatting \n")
                 st.markdown(result.answer)
 
             with sources_col:
                 st.markdown("#### Bronnen")
                 for source in result.sources:
                     st.markdown(source.page_content)
-                    st.markdown(source.metadata["source"])
+                st.markdown(source.metadata["source"])
                 st.markdown("---")
