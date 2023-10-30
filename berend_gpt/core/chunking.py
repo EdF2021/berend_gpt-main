@@ -2,9 +2,10 @@ from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from berend_gpt.core.parsing import File
 
+#3.5-turbo
 
 def chunk_file(
-    file: File, chunk_size: int, chunk_overlap: int = 0, model_name="gpt-3.5-turbo"
+    file: File, chunk_size: int, chunk_overlap: int = 0, model_name="gpt-4"
 ) -> File:
     """Chunks each document in a file into smaller documents
     according to the specified chunk size and overlap
