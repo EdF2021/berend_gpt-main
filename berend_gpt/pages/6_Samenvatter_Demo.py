@@ -18,7 +18,7 @@ from berend_gpt.core.embedding import embed_files
 from berend_gpt.core.utils import get_llm
 from berend_gpt.core.qa import query_folder
 
-# import tiktoken
+import tiktoken
 
 
 EMBEDDING = "openai"
@@ -30,9 +30,9 @@ image = Image.open("berend_gpt/images/achtergrond_samenvatter.png")
 # MODEL_LIST.insert(0, "debug")
 
 st.set_page_config(
-    page_title="Berend Skills",
-    page_icon=" :genie: ",
-    layout="centered",
+    page_title=" :genie: Berend Skills",
+    page_icon=":genie:",
+    layout="wide",
     initial_sidebar_state="collapsed",
     menu_items=None
 )
@@ -41,9 +41,9 @@ st.set_page_config(
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header("Berend Skills")
+    st.header(":genie: Berend Skills")
     st.subheader(" :bookmark_tabs: De Samenvatter\n*waarom zou je moeilijk doen ....?*")
-    st.markdown(""" ##### De Samenvatter kan diverse omvangrijke documenten voor u samen vatten.""")
+    st.markdown(""" ##### De Samenvatter kan diverse omvangrijke documenten voor j samenvatten.""")
     st.markdown("""
                 ##### Hoe werkt het ? 
                 1. **Upload een pdf, docx, of txt file📄**
@@ -83,7 +83,7 @@ if not openai_api_key:
 
 
 uploaded_file = st.file_uploader(
-    "**:point_down: HIER JE PDF, DOCX, OF TXT BESTAND UPLOADEN!!**",
+    "**:point_down: UPLOAD HIER JE PDF, DOCX, OF TXT BESTAND!**",
     type=["pdf", "docx", "txt"],
     help="Gescande documenten worden nog niet ondersteund! ",
 )
@@ -123,7 +123,7 @@ if uploaded_file:
                 Als je iets niet weet dan ga je niets verzinnen, maar zeg je: 'Deze vraag kan ik niet beantwoorden'.
                 Dit is de vraag van de gebruiker:\n 
                 """
-        query += st.text_input("Maak een samenvatting over ") + """\n 
+        query += st.text_input("Type hier je vraag ") + """\n 
                                 Maak nu een goede uitgebreide samenvatting, in het Nederlands, op basis van de gestelde vraag van de gebruiker, 
                                 en gebruik hierbij het ingelezen document als bron. 
                                 Presenteer de samenvatting in het Markdown formaat, en gebruik koppen, subkoppen, bullits om structuur aan te brengen.  
