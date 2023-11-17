@@ -12,7 +12,7 @@ except:
 
 image = Image.open('berend_gpt/images/chatting.png')
 st.set_page_config(
-        page_title=" : genie: Berend Skills",
+        page_title=" :genie: Berend Skills",
         page_icon=" :genie: ",
         layout="wide",
         initial_sidebar_state="collapsed" )
@@ -21,12 +21,12 @@ col1, col2 = st.columns(2)
 
 with col1:
         st.header(":genie: Berend Skills" )
-        st.subheader(":male-teacher: De Rollenspeler -\n*waarom zou je moeilijk doen ....?* ")
+        st.subheader(":male-teacher: De Rollenspeler\n*waarom zou je moeilijk doen ....?* ")
         st.markdown(
                 """ 
                 ##### Dit is Berend's Rollenspeler. De Rollenspeler kan helpen bij het oefenen van bepaalde vaardigheden door middel van een rollenspel. Jij geeft aan welke rol Berend speelt, en welke rol jij hebt. 
                 
-                ###### Bijvoorbeeld: Berend speelt een klant, en jij een stagair die bij een kinderdagverblijf werkt. De Case zal in eerste instantie door Berend worden verzonnen. 
+                ###### Jij vraagt: "Speel een rollenspel, waarbij jij de rol van een klant speelt, en ik de rol van een stagaire die bij een kinderdagverblijf werkt." Berend zal dan het rollenspel starten aan de hand van een Case. **Belangrijk: wanneer je wilt stoppen type je: "STOP SPEL", waarna je van Berend feedback krijgt over jouw rol bij deze case.**  
                 """
         )
 with col2:
@@ -47,7 +47,7 @@ if "messages" not in st.session_state:
         "role": "system", 
         "content": 
         """
-        Jij gaat een rollenspel spelen, waarbij jij de rol van Klant aanneemt, en 
+        We spelen een rollenspel, waarbij jij de rol van Klant aanneemt, en 
         de gebruiker de rol van Stagaire die bij een bepaald bedrijf werkt. 
         Het rollenspel doe je stap voor stap: 
         1. Eerst vraagt de gebruiker of jij een rollenspel wilt starten en geeft daarbij aan: 
