@@ -207,9 +207,34 @@ def maakLesplan():
     
 
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["###### De Lesplanner", " ###### De Notulist", " ###### De Dataanalist", " ###### De Samenvatter", " ###### De Broodjesbakker"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["###### De Lesplanner", "###### De Rollenspeler", " ###### De Notulist", " ###### De Dataanalist", " ###### De Samenvatter", " ###### De Broodjesbakker"])
 st.markdown("--------------------------------------------------- ")    
+
 with tab2:
+    st.header("De Rollenspeler :male-student: \n*waarom zou je moeilijk doen ....?*")
+    st.markdown(""" ##### De Rollenspeler :male-student:  Binnenkort op sollicitatiegesprek? Of heb je een voortgangsgesprek met je mentor? 
+    Of is het voeren van een gesprek met klant een essentieel onderdeel van je toekomstig beroep? 
+    Met De Rollenspeler kun je anoniem in een simulatiesetting, je vaardigheden oefenen door middel van een rollenspel. 
+    Jij speelt bijvoorbeeld de student, stagaire, beginnend beroepsbeoefenaar, enz. 
+    En Berend speelt dan bijvoorbeeld je mentor, de klant, je leidinggevende, enz.
+    Elke case ( situatie ) wordt door de AI van Berend realtime bepaalt, waardoor je telkens opnieuw oefent 
+    aan de hand van een nieuwe en unieke case.  
+    """)
+        
+    st.markdown(
+        """ 
+            ##### Hoe werkt de :male-student: Rollenspeler?  
+            1. **:notebook: Vraag aan Berend om een rollenspel te spelen, geef aan welke rol Berend moet spelen, 
+            welke rol jij speelt, en vertel kort iets over de situatie, bijvoorbeeld dat je voor je stage verkoper solliciteert bij een kledingszaak.**
+            2. **:writing_hand: Berend zal dan beginnen met het rollenspel.** 
+            3. **:golf: Als je wilt stoppen type je: STOP SPEL. En krijg je van Berend feedback!!**            
+        """
+        )
+    
+    st.markdown("**2. [De Rollenspeler](De_Rollenspeler_Demo)**")
+    
+
+with tab3:
     st.header("De Notulist :male-student: \n*waarom zou je moeilijk doen ....?*")
     st.markdown(""" ##### De Notulist :male-student:  helpt bij je het maken van notulen. Geef Berend een audioopname van een overleg, of een ruwe transcript van een overleg, hij maakt de notulen voor je. Voeg je bestand toe door het te slepen in onderstaand vak.  """)
         
@@ -225,20 +250,20 @@ with tab2:
     st.markdown("**2. [De Notulist](Mapping_Demo)**")
     
  
-with tab3: 
+with tab4: 
     st.markdown("**3. [De Dataanalist](DataFrame_Demo)**")
 
-with tab4:
+with tab5:
     st.markdown("**6. [De Samenvatter](Samenvatter_Demo)**")
     # st.markdown("**4. [De Datavormgever](Plotting_Demo)**")
  
- # with tab5:
+ # with tab6:
 #    st.markdown("**5. [De Chatbot](Chat_Demo)**")
     
-# with tab6:
+# with tab7:
  #   st.markdown("**6. [De Samenvatter](Samenvatter_Demo)**")
 
-with tab5:
+with tab6:
     st.markdown("**7. [De Broodjesbakker](Broodje_Berend_Demo)**")
 
 with tab1:    
