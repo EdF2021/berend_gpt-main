@@ -9,6 +9,7 @@ except:
     openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 image = Image.open("berend_gpt/images/broodje_achtergrond.png")
+
 st.set_page_config(
     page_title="Berend-Botje Skills",
     page_icon=" :genie: ",
@@ -21,6 +22,11 @@ prompt = ""
 aprompt = ""
 full_response = ""
 file_uploaded =""
+img_file_buffer = ""
+
+def toggle():
+    file_uploaded = img_file_buffer
+    return file_uploaded
 
 col1, col2 = st.columns(2)
 
@@ -51,82 +57,86 @@ with col2:
         output_format="auto",
     )
 
+
 uploaded_file = st.file_uploader(
     "**:frame_with_picture: :red[Hier je foto uploaden!]**",
     type=["jpg","png"],
-    help="Op dit moment ondersteunen we alleen foto's in png formaat ",
+    help="Op dit moment ondersteunen we alleen foto's in jpg, png formaat ",
 )
+
 
 img_file_buffer = st.camera_input("Maak een foto")
 
-if img_file_buffer is not None:
+if img_file_buffer:
     # To read image file buffer as bytes:
     # bytes_data = img_file_buffer.getvalue()
     # Check the type of bytes_data:
     # Should output: <class 'bytes'>
     # st.write(type(bytes_data))
-    try:
-        import base64
-        import requests
-
-        # OpenAI API Key
-        api_key = os.getenv("OPENAI_API_KEY")
+    with st.spinner('Bezig ingredienten te ontdekken...'):
         
-        
-        # Function to encode the image
-        def encode_image(image_path):
-            with open(image_path, "rb") as image_file:
-                return base64.b64encode(image_file.read()).decode('utf-8')
-        
-        # Path to your image
-        image_path = img_file_buffer
-        
-        # Getting the base64 string
-        base64_image = base64.b64encode(image_path.read()).decode('utf-8') # encode_image(image_path)
-        
-        headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {api_key}"
-        }
-        
-        payload = {
-        "model": "gpt-4-vision-preview",
-        "messages": [
-            {
-            "role": "user",
-            "content": [
-                {
-                "type": "text",
-                "text": "Welke ingredienten en voedingsprodukten zie je in de image?"
-                },
-                {
-                "type": "image_url",
-                "image_url": {
-                    "url": f"data:image/jpeg;base64,{base64_image}"
-                }
-                }
-            ]
+        try:
+            import base64
+            import requests
+    
+            # OpenAI API Key
+            api_key = os.getenv("OPENAI_API_KEY")
+            
+            
+            # Function to encode the image
+            def encode_image(image_path):
+                with open(image_path, "rb") as image_file:
+                    return base64.b64encode(image_file.read()).decode('utf-8')
+            
+            # Path to your image
+            image_path = img_file_buffer
+            
+            # Getting the base64 string
+            base64_image = base64.b64encode(image_path.read()).decode('utf-8') # encode_image(image_path)
+            
+            headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}"
             }
-        ],
-        "max_tokens": 300
-        }
-        
-        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
-        
-        prompt = response.json()["choices"][0]["message"]['content']
-        
-        print(response.json()["choices"][0]["message"]['content'])
-        
-    except openai.error.OpenAIError as e:
-        print(e.http_status)
-        print(e.error)
+            
+            payload = {
+            "model": "gpt-4-vision-preview",
+            "messages": [
+                {
+                "role": "user",
+                "content": [
+                    {
+                    "type": "text",
+                    "text": "Welke ingredienten en voedingsprodukten zie je in de image?"
+                    },
+                    {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/jpeg;base64,{base64_image}"
+                    }
+                    }
+                ]
+                }
+            ],
+            "max_tokens": 300
+            }
+            
+            response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+            
+            prompt = response.json()["choices"][0]["message"]['content']
+            
+            print(response.json()["choices"][0]["message"]['content'])
+            
+        except openai.error.OpenAIError as e:
+            print(e.http_status)
+            print(e.error)
     
-if not prompt:
-    prompt = st.chat_input("Geen foto? Schrijf hier jouw ingredienten")
+        if not prompt:
+            prompt = st.chat_input("Geen foto? Schrijf hier jouw ingredienten")
     
 
-# if not uploaded_file:
-if not prompt:
+if not uploaded_file:
+    if not prompt:
         st.stop()
 
 if uploaded_file:
@@ -136,6 +146,7 @@ if uploaded_file:
 
         # OpenAI API Key
         api_key = os.getenv("OPENAI_API_KEY")
+        
         
         
         # Function to encode the image
@@ -180,7 +191,16 @@ if uploaded_file:
         
         
         prompt = response.json()["choices"][0]["message"]['content']
-        
+        myimage = Image.open(uploaded_file)
+        st.image(
+            myimage, 
+            caption=None,
+            width=240,
+            use_column_width=False,
+            clamp=True,
+            channels="RGB",
+            output_format="auto"
+        )
         print(response.json()["choices"][0]["message"]['content'])
         # ing_image = Image.open(uploaded_file)
         # response = openai.Image.create_edit(
@@ -197,8 +217,8 @@ if uploaded_file:
         print(e.http_status)
         print(e.error)
         
-    if not prompt:
-        st.stop()    
+if not prompt:
+    st.stop()    
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
@@ -222,7 +242,9 @@ for message in st.session_state.messages:
             st.markdown(message["content"])
         
 if prompt:
-    pprompt = "Je bent een behulpzame assistent bot, en je kan op basis van ingredienten recepten voor heerlijke broodjes maken. Maak nu een recept voor een heerlijk broodje, waarbij je alleen gebruik mag maken van de volgende ingredienten: """ + prompt 
+    with st.spinner('Bezig met recept..'):
+        pprompt = "Je bent een behulpzame assistent bot, en je kan op basis van ingredienten recepten voor heerlijke broodjes maken. Maak nu een recept voor een heerlijk broodje, gebruik alleen de volgende ingredienten: """ + prompt 
+    
     st.session_state.messages.append(
         {
             "role": "user",
@@ -245,18 +267,17 @@ if prompt:
         ):
             full_response += response.choices[0].delta.get("content", "")
             message_placeholder.markdown(full_response + "▌")
-        message_placeholder.markdown(full_response)
+            message_placeholder.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": full_response})
     
 if full_response == "":
     st.stop()
     
 with st.spinner("Bezig met het maken van de afbeelding... "):
-        bereidingswijze = str(full_response[100:800]) 
+        bereidingswijze = str(full_response[:850]) 
         aprompt = (
-            """ Maak een foto van een heerlijk broodje en gebruik hiervoor alle ingredienten, ook het soort brood, die hier worden beschreven.
-                Ingredienten: {prompt} . Het broodje is op deze wijze gemaakt: {bereidingswijze} 
-            """
+            """ Maak een foto van een heerlijk broodje  en gebruik hiervoor deze bereidingswijze: """ + bereidingswijze 
+           
         )
         myresponse = openai.Moderation.create(
             input=aprompt,
