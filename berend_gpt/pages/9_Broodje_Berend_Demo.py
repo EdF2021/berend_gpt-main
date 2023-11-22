@@ -51,7 +51,11 @@ with col2:
         output_format="auto",
     )
 
-
+uploaded_file = st.file_uploader(
+    "**:frame_with_picture: :red[Hier je foto uploaden!]**",
+    type=["jpg","png"],
+    help="Op dit moment ondersteunen we alleen foto's in png formaat ",
+)
 
 img_file_buffer = st.camera_input("Maak een foto")
 
@@ -109,37 +113,22 @@ if img_file_buffer is not None:
         
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
         
-        
         prompt = response.json()["choices"][0]["message"]['content']
         
         print(response.json()["choices"][0]["message"]['content'])
-        # ing_image = Image.open(uploaded_file)
-        # response = openai.Image.create_edit(
-            # image=open(ing_img, "rb"),
-            # prompt="Een broodje met de ingredienten uit {image}",
-            # n = 1,
-            # size = "512x512"
-        #)
-        # image_url = response["data"][0]["url"]
-        # st.markdown("[Bekijk je broodje](str(response['data'][0]['url']))")
-        # st.image(image_url, caption="""### Het heerlijke AI broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE** """, width=340)
         
     except openai.error.OpenAIError as e:
         print(e.http_status)
         print(e.error)
     
+if not prompt:
+    prompt = st.chat_input("Geen foto? Schrijf hier jouw ingredienten")
+    
 
-uploaded_file = st.file_uploader(
-    "**:frame_with_picture: :red[Hier je foto uploaden!]**",
-    type=["jpg","png"],
-    help="Op dit moment ondersteunen we alleen foto's in png formaat ",
-)
-
-prompt = st.chat_input("Geen foto? Schrijf hier jouw ingredienten")
-
-if not uploaded_file:
-    if not prompt:
+# if not uploaded_file:
+if not prompt:
         st.stop()
+
 if uploaded_file:
     try:
         import base64
