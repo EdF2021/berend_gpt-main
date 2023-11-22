@@ -21,9 +21,10 @@ except:
 
 
 image = Image.open('berend_gpt/images/chatachtergrond.png')
+
 st.set_page_config(
-        page_title=" : genie: Berend Skills",
-        page_icon=" :genie: ",
+        page_title=":genie: Berend Skills",
+        page_icon=":genie:",
         layout="wide",
         initial_sidebar_state="collapsed" )
 
@@ -34,9 +35,12 @@ with col1:
         st.subheader(":male-teacher: De Rollenspeler -\n*waarom zou je moeilijk doen ....?* ")
         st.markdown(
                 """ 
-                ##### Dit is Berend's Rollenspeler. De Rollenspeler kan helpen bij het oefenen van gespreksvaardigheden door middel van een rollenspel. 
+                ##### Dit is Berend's Rollenspeler. De Rollenspeler kan helpen bij het oefenen van gespreksvaardigheden 
+                door middel van een rollenspel. 
                 
-                ###### Kies je opleiding, en de case die je wilt oefenen. Type dan **start** in en met **Enter** start je de simulatie. Om te stoppen voer je **STOP SPEL** in, en vervolgens krijg je van Berend feedback over je prestatie
+                ###### Kies je opleiding, en de case die je wilt oefenen. Type dan **start** gevolgd door **Enter** 
+                de simulatie wordt gestart. 
+                Om te stoppen voer je **STOP SPEL** in, en vervolgens krijg je van Berend feedback over je prestatie
                 """
         )
 with col2:
@@ -46,7 +50,7 @@ with col2:
 try:
         case = st.radio(
         "Waarmee wil je oefenen? 👇",
-        ["sollicatiegesprek", "gesprek met klant", "gesprek met mentor", "gesprek met leidingevende"],
+        ["sollicatiegesprek", "gesprek met klant", "voortgangsgesprek met mentor", "voortgangsgesprek met leidingevende"],
         key="case",
         #label_visibility=st.session_state.visibility,
         #disabled=st.session_state.disabled,
@@ -56,29 +60,29 @@ try:
         
         
         if not opleiding:
-            # st.error("Selecteer een Opleiding")
+            st.error("Selecteer een Opleiding")
             st.stop()
         else:
             print("GEKOZEN")
             print(opleiding[0])
             print(case)
             
-            if case == "sollicitatiegesprek":
-                rol_berend = "leidingevende waarmee de stagaire ( user ) een sollicatiegesprek voert voor de functie " + opleiding[0]
-                rol_user = "stagaire die solliciteert naar de functie van " + opleiding[0]
+            if case == "sollicatiegesprek":
+                rol_berend = "leidingevende waarmee de student een sollicatiegesprek voert voor de functie " + opleiding[0]
+                rol_user = "student die solliciteert naar de functie van " + opleiding[0]
             elif case == "gesprek met klant":
                 rol_berend = "klant van " + opleiding[0]
                 rol_user = "stagaire die werkt als  " + opleiding[0] 
-            elif case == "gesprek met mentor":
+            elif case == "voortgangsgesprek met mentor":
                 rol_berend = "mentor van de student op school"
-                rol_user = "student " + opleiding[0]
-            elif case == "gesprek met leidinggevende":
-                rol_berend = "leidinggevende van de user"
-                rol_user = "werknemer die werkzaam is als " + opleiding[0]
+                rol_user = "student " + opleiding[0] + " die een voortgangsgesprek met de mentor voert"
+            elif case == "voortgangsgesprek met leidingevende":
+                rol_berend = "leidinggevende van de student"
+                rol_user = "student die werkzaam is als " + opleiding[0] + " en die een voortgangsgesprek met de leidingevende voert"
                
                     
             prompt = "Speel een rollenspel waarbij jij (Berend) de rol speelt van " + rol_berend  + ", en de gebruiker ( user ) de rol speelt van " + rol_user 
-            st.session_state.messages.append({"role": "user", "content": prompt})
+            
             
 
 except:
@@ -93,6 +97,8 @@ if "openai_model" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state.messages = []
     st.session_state.messages.append({"role": "system", "content": """Jij gaat een rollenspel spelen, waarbij jij de rol van Klant aanneemt, en de gebruiker de rol van Stagair die bij een bepaald bedrijf werkt. Als de gebruiker je gevraagd heeft om het rollenspel te starten, begin jij het rollenspel als Klant en stel je een vraag op basis van eendoor jou verzonnen case, die past bij de de gegevens die de gebruiker in de vraag aan je heeft verstrekt. Je wacht dan op het antwoord van de Stagair. Je wacht dus na jouw antwoord/vraag altijd op respons van de stagiare. Geef altijd antwoord in het Nederlands"""})
+    if prompt:
+        st.session_state.messages.append({"role": "user", "content": prompt})
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -100,8 +106,9 @@ for message in st.session_state.messages:
             st.markdown(message["content"])
 
 
-prompt2 = prompt
-print(prompt2)
+
+if prompt:
+    print(prompt)
 
 if prompt := st.chat_input("Hoe gaat het?"):
     
