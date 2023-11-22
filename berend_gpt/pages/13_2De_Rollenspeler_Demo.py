@@ -8,9 +8,6 @@ MIJNDATA = "berend_gpt/pages/opleidingen.csv"
 df = pd.read_csv(MIJNDATA)
 keuze = set(list(df["OPLEIDINGEN"]))
 keuze = sorted(keuze)
-opleiding = ""
-case = ""
-prompt = ""
 
 
 try:
@@ -47,6 +44,7 @@ with col2:
         st.image(image, caption=None, width=240, use_column_width=True, clamp=True, channels="RGB", output_format="auto")
         st.markdown(""" """)
 
+
 try:
         case = st.radio(
         "Waarmee wil je oefenen? 👇",
@@ -80,15 +78,16 @@ try:
                 rol_berend = "leidinggevende van de student"
                 rol_user = "student die werkzaam is als " + opleiding[0] + " en die een voortgangsgesprek met de leidingevende voert"
                
-                    
             prompt = "Speel een rollenspel waarbij jij (Berend) de rol speelt van " + rol_berend  + ", en de gebruiker ( user ) de rol speelt van " + rol_user 
             
             
 
 except:
     st.write("FOUT")
+    st.stop()
 
-
+if not prompt:
+    st.stop()
 # openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 if "openai_model" not in st.session_state:
