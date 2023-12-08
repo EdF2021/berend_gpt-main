@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "berend-gpt"
 version = "0.0.5"
-description = "Accurate answers and instant citations for your documents"
+description = "Een aantal voorbeeld AI Apps"
 authors = ["EdF2021 <ed.de.feber@outlook.com>"]
 license = "MIT"
 readme = "README.md"
@@ -15,7 +15,7 @@ cohere = "^3.2.1"
 faiss-cpu = "^1.7.3"
 openai = "^0.27.8"
 docx2txt = "^0.8"
-pillow = "^10.0.1"
+pillow = "^7.1.0" 
 tenacity = "^8.2.0"
 tiktoken = "^0.4.0"
 pycryptodome = "^3.18.0"
