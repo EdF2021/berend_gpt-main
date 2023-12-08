@@ -5,7 +5,6 @@ description = "Een aantal voorbeeld AI Apps"
 authors = ["EdF2021 <ed.de.feber@outlook.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "berend_gpt"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
