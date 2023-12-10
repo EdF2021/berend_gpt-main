@@ -29,6 +29,8 @@ try:
 except:
     openai_api_key = st.secrets["OPENAI_API_KEY"]
 
+# st.session_state.get(open_api_key)
+    
 # st.session_state.get("OPENAI_API_KEY")
 
 image = Image.open("berend_gpt/images/producttoer.jpeg")
@@ -108,14 +110,11 @@ def maakLesplan():
     bootstrap_caching()
     
     # sidebar()
-
+    # openai_api_key= open_api_key
     try:
-        openai_api_key = st.secrets["OPENAI_API_KEY"]  
-    except:
         openai_api_key = os.getenv("OPENAI_API_KEY")
-    
-    # openai_api_key = st.session_state.get("OPENAI_API_KEY")
-    
+    except:
+        openai_api_key = st.secrets["OPENAI_API_KEY"]  
     
     uploaded_file = st.file_uploader(
         " **:red[Upload een pdf, docx, of txt bestand]** ",
@@ -124,11 +123,8 @@ def maakLesplan():
     )
     
     model: str = st.selectbox("Model", options=MODEL_LIST)  # type: ignore
-    
-    with st.expander("Advanced Options"):
-        return_all_chunks = st.checkbox("Toon alle chunks die tijdens het zoeken zijn opgehaald")
-        show_full_doc = st.checkbox("Toon de volledige gepaseerde inhoud van het document")
-    
+    return_all_chunks = True
+    show_full_doc = False
     
     if not uploaded_file:
         st.stop()
@@ -171,32 +167,34 @@ def maakLesplan():
     
     
     if submit:
-        if not is_query_valid(query):
-            st.stop()
-    
-        # Output Columns
-        query = "Jij bent een slimme Assistent Bot en je helpt docenten die willen dat je voor 1 les een lesplan maakt. Dit is de vraag van de docent: " + str(query)
+        with st.spinner("Je lesplan wordt gemaakt.... Dit kan even duren ⏳"):
+            if not is_query_valid(query):
+                st.stop()
         
-        llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0.3)
-        result = query_folder(
-            folder_index=folder_index,
-            query = query + """ Maak nu een lesplan voor 1 les over het onderwerp en lesdoel die de docent in de vraag heeft genoemd. 
-                Gebruik ook wat er in het ingelezen document over dit onderwerp staat.   
-                Als er geen lesdoel is genoemd gebruik je het een algemene doel van elke les, en dat  is dat studenten de les begrepen moeten hebben, en eventueel het geleerde ook praktisch kunnen toepassen. 
-                Gebruik voor het lesplan een verscheidenheid aan lestechnieken en -modaliteiten, waaronder directe instructie, 
-                controleren op begrip (inclusief het verzamelen van bewijs met behulp van quizjes, 
-                formatieve toetsen, rubricks, discussies, een boeiende activiteit in de klas of een opdracht. 
-                Leg uit waarom je specifiek voor elk kiest.  
-                Publiceer het lesplan in Markdown formaat, met duidelijke koppen en bullets. GEEF ALTIJD ANTWOORD IN HET NEDERLANDS!"   """,
-                return_all=return_all_chunks,
-                llm=llm,
-        )
+            # Output Columns
+            query = "Jij bent een slimme Assistent Bot en je helpt docenten die willen dat je voor 1 les een lesplan maakt. Dit is de vraag van de docent: " + str(query)
+            
+            llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0.3)
+            result = query_folder(
+                folder_index=folder_index,
+                query = query + """ Maak nu een lesplan voor 1 les over het onderwerp en lesdoel die de docent in de vraag heeft genoemd. 
+                    Gebruik ook wat er in het ingelezen document over dit onderwerp staat.   
+                    Als er geen lesdoel is genoemd gebruik je het een algemene doel van elke les, en dat  is dat studenten de les begrepen moeten hebben, en eventueel het geleerde ook praktisch kunnen toepassen. 
+                    Gebruik voor het lesplan een verscheidenheid aan lestechnieken en -modaliteiten, waaronder directe instructie, 
+                    controleren op begrip (inclusief het verzamelen van bewijs met behulp van quizjes, 
+                    formatieve toetsen, rubricks, discussies, een boeiende activiteit in de klas of een opdracht. 
+                    Leg uit waarom je specifiek voor elk kiest.  
+                    Publiceer het lesplan in Markdown formaat, met duidelijke koppen en bullets. GEEF ALTIJD ANTWOORD IN HET NEDERLANDS!"   """,
+                    return_all=return_all_chunks,
+                    llm=llm,
+            )
+    
         
         answer_col, sources_col = st.columns(2)
         with answer_col:
             st.markdown("#### Lesplan ")
             st.markdown(result.answer)
-    
+        
         with sources_col:
             if result.sources:
                 st.markdown("#### Bronnen")
@@ -204,37 +202,12 @@ def maakLesplan():
                     st.markdown(source.page_content)
                     st.markdown(source.metadata["source"])
                     st.markdown("---")
-    
-
-
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["###### De Lesplanner", "###### De Rollenspeler", " ###### De Notulist", " ###### De Dataanalist", " ###### De Samenvatter", " ###### De Broodjesbakker"])
-st.markdown("--------------------------------------------------- ")    
-
-with tab2:
-    st.header("De Rollenspeler :male-student: \n*waarom zou je moeilijk doen ....?*")
-    st.markdown(""" ##### De Rollenspeler :male-student:  Binnenkort op sollicitatiegesprek? Of heb je een voortgangsgesprek met je mentor? 
-    Of is het voeren van een gesprek met klant een essentieel onderdeel van je toekomstig beroep? 
-    Met De Rollenspeler kun je anoniem in een simulatiesetting, je vaardigheden oefenen door middel van een rollenspel. 
-    Jij speelt bijvoorbeeld de student, stagaire, beginnend beroepsbeoefenaar, enz. 
-    En Berend speelt dan bijvoorbeeld je mentor, de klant, je leidinggevende, enz.
-    Elke case ( situatie ) wordt door de AI van Berend realtime bepaalt, waardoor je telkens opnieuw oefent 
-    aan de hand van een nieuwe en unieke case.  
-    """)
         
-    st.markdown(
-        """ 
-            ##### Hoe werkt de :male-student: Rollenspeler?  
-            1. **:notebook: Vraag aan Berend om een rollenspel te spelen, geef aan welke rol Berend moet spelen, 
-            welke rol jij speelt, en vertel kort iets over de situatie, bijvoorbeeld dat je voor je stage verkoper solliciteert bij een kledingszaak.**
-            2. **:writing_hand: Berend zal dan beginnen met het rollenspel.** 
-            3. **:golf: Als je wilt stoppen type je: STOP SPEL. En krijg je van Berend feedback!!**            
-        """
-        )
-    
-    st.markdown("**2. [De Rollenspeler](De_Rollenspeler_Demo)**")
-    
 
-with tab3:
+
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["###### De Lesplanner", " ###### De Notulist", " ###### De Dataanalist", " ###### De Samenvatter", " ###### De Broodjesbakker"])
+st.markdown("--------------------------------------------------- ")    
+with tab2:
     st.header("De Notulist :male-student: \n*waarom zou je moeilijk doen ....?*")
     st.markdown(""" ##### De Notulist :male-student:  helpt bij je het maken van notulen. Geef Berend een audioopname van een overleg, of een ruwe transcript van een overleg, hij maakt de notulen voor je. Voeg je bestand toe door het te slepen in onderstaand vak.  """)
         
@@ -250,20 +223,20 @@ with tab3:
     st.markdown("**2. [De Notulist](Mapping_Demo)**")
     
  
-with tab4: 
+with tab3: 
     st.markdown("**3. [De Dataanalist](DataFrame_Demo)**")
 
-with tab5:
+with tab4:
     st.markdown("**6. [De Samenvatter](Samenvatter_Demo)**")
     # st.markdown("**4. [De Datavormgever](Plotting_Demo)**")
  
- # with tab6:
+ # with tab5:
 #    st.markdown("**5. [De Chatbot](Chat_Demo)**")
     
-# with tab7:
+# with tab6:
  #   st.markdown("**6. [De Samenvatter](Samenvatter_Demo)**")
 
-with tab6:
+with tab5:
     st.markdown("**7. [De Broodjesbakker](Broodje_Berend_Demo)**")
 
 with tab1:    
