@@ -1,3 +1,4 @@
+
 <h1 align="center">
 Berend Skills 
 </h1>
@@ -7,6 +8,4 @@ Berend Skills
 </div>
 
 **Berend Skills**
-
-
 
