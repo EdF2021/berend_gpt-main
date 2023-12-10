@@ -7,6 +7,8 @@ try:
     openai_api_key = os.getenv("OPENAI_API_KEY")
 except:
     openai_api_key = st.secrets["OPENAI_API_KEY"]
+    
+api_key = openai_api_key
 
 image = Image.open("berend_gpt/images/broodje_achtergrond.png")
 
@@ -80,7 +82,7 @@ if img_file_buffer:
             import requests
     
             # OpenAI API Key
-            api_key = os.getenv("OPENAI_API_KEY")
+            # api_key = os.getenv("OPENAI_API_KEY")
             
             
             # Function to encode the image
@@ -145,7 +147,7 @@ if uploaded_file:
         import requests
 
         # OpenAI API Key
-        api_key = os.getenv("OPENAI_API_KEY")
+        # api_key = os.environ.get("OPENAI_API_KEY")
         
         
         
@@ -220,7 +222,7 @@ if uploaded_file:
 if not prompt:
     st.stop()    
 
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+# openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = "gpt-3.5-turbo"
@@ -274,9 +276,9 @@ if full_response == "":
     st.stop()
     
 with st.spinner("Bezig met het maken van de afbeelding... "):
-        bereidingswijze = str(full_response[:850]) 
+        bereidingswijze = str(full_response[50:900]) 
         aprompt = (
-            """ Maak een foto van een heerlijk broodje  en gebruik hiervoor deze bereidingswijze: """ + bereidingswijze 
+            """ Een heerlijk broodje  dat met de volgende ingredienten en bereidingswijze is gemaakt:: """ + bereidingswijze 
            
         )
         myresponse = openai.Moderation.create(
@@ -287,7 +289,7 @@ with st.spinner("Bezig met het maken van de afbeelding... "):
         for i in "  ", "-", "1-9", "\n":
             aprompt = aprompt.replace(i, " ")
         aprompt = aprompt.replace("  ", " ")
-        # print(aprompt)
+        print(aprompt)
 
         try:
             

@@ -23,7 +23,7 @@ import tiktoken
 
 EMBEDDING = "openai"
 VECTOR_STORE = "faiss"
-MODEL_LIST = ["gpt-3.5-turbo", "gpt-4","gpt-4-0613"]
+MODEL_LIST = ["gpt-3.5-turbo"]
 
 image = Image.open("berend_gpt/images/achtergrond_samenvatter.png")
 # Uncomment to enable debug mode
@@ -62,7 +62,7 @@ with col2:
 
 
 # Enable caching for expensive functions
-bootstrap_caching()
+# bootstrap_caching()
 
 # sidebar()
 
@@ -88,7 +88,9 @@ uploaded_file = st.file_uploader(
     help="Gescande documenten worden nog niet ondersteund! ",
 )
 
-model: str = st.selectbox("Model", options=MODEL_LIST)  # type: ignore
+# model: str = st.selectbox("Model", options=MODEL_LIST)  # type: ignore
+
+model = "gpt-3.5-turbo"
 
 return_all_chunks = True
 show_full_doc = False
@@ -97,10 +99,11 @@ show_full_doc = False
 if not uploaded_file:
     st.stop()
 
-try:
-    file = read_file(uploaded_file)
-except Exception as e:
-    display_file_read_error(e, file_name=uploaded_file.name)
+if uploaded_file:
+    try:
+        file = read_file(uploaded_file)
+    except Exception as e:
+        display_file_read_error(e, file_name=uploaded_file.name)
 
 if uploaded_file:
     with st.spinner("Indexeren van het document... Dit kan even duren⏳"):
@@ -123,7 +126,8 @@ if uploaded_file:
                 Als je iets niet weet dan ga je niets verzinnen, maar zeg je: 'Deze vraag kan ik niet beantwoorden'.
                 Dit is de vraag van de gebruiker:\n 
                 """
-        query += st.text_input("Type hier je vraag ") + """\n 
+        query = query + st.text_input("Type hier je vraag ") + """
+        
                                 Maak nu een goede uitgebreide samenvatting, in het Nederlands, op basis van de gestelde vraag van de gebruiker, 
                                 en gebruik hierbij het ingelezen document als bron. 
                                 Presenteer de samenvatting in het Markdown formaat, en gebruik koppen, subkoppen, bullits om structuur aan te brengen.  
@@ -131,29 +135,29 @@ if uploaded_file:
         submit = st.form_submit_button("Maak samenvatting")
 
 
-    if submit:
-        with st.spinner("Bezig met de samenvatting ... ⏳"):
-            if not is_query_valid(query):
-                st.stop()
+        if submit:
+            with st.spinner("Bezig met de samenvatting ... ⏳"):
+                if not is_query_valid(query):
+                    st.stop()
 
             # Output Columns
-            llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0.3)
-            result = query_folder(
-                folder_index=folder_index,
-                query=query,
-                return_all=return_all_chunks,
-                llm=llm,
-            )
+                llm = get_llm(model=model, openai_api_key=openai_api_key, temperature=0.)
+                result = query_folder(
+                    folder_index=folder_index,
+                    query=query,
+                    return_all=return_all_chunks,
+                    llm=llm,
+                )
         
-            answer_col, sources_col = st.columns(2)
+                answer_col, sources_col = st.columns(2)
 
-            with answer_col:
-                st.markdown(" #### Samenvatting \n")
-                st.markdown(result.answer)
+                with answer_col:
+                    st.markdown(" #### Samenvatting \n")
+                    st.markdown(result)
 
-            with sources_col:
-                st.markdown("#### Bronnen")
-                for source in result.sources:
-                    st.markdown(source.page_content)
-                st.markdown(source.metadata["source"])
-                st.markdown("---")
+                with sources_col:
+                    st.markdown("#### Bronnen")
+                    for source in result.sources:
+                        st.markdown(source.page_content)
+                    st.markdown(source.metadata["source"])
+                    st.markdown("---")
