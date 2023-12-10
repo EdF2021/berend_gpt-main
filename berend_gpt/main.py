@@ -3,6 +3,8 @@ import streamlit as st
 from PIL import Image
 from streamlit.logger import get_logger
 # import berend_gpt as app
+import openai
+
 
 from berend_gpt.ui import (
     wrap_doc_in_html,
