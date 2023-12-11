@@ -109,7 +109,7 @@ def maakLesplan():
 
         
     # Enable caching for expensive functions
-    # bootstrap_caching()
+    bootstrap_caching()
     
     # sidebar()
     # openai_api_key= open_api_key
