@@ -229,7 +229,7 @@ if uploaded_file:
         # st.markdown("[Bekijk je broodje](str(response['data'][0]['url']))")
         # st.image(image_url, caption="""### Het heerlijke AI broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE** """, width=340)
         
-    except openai.error.OpenAIError as e:
+    except client.error.OpenAIError as e:
         print(e.http_status)
         print(e.error)
         
@@ -273,7 +273,7 @@ if prompt:
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         # full_response = ""
-        for response in openai.ChatCompletion.create(
+        for response in client.chat.completions.create(
             model=st.session_state["openai_model"],
             messages=[
             {"role": m["role"], "content": m["content"]}
@@ -295,9 +295,9 @@ with st.spinner("Bezig met het maken van de afbeelding... "):
             """ Een heerlijk broodje  dat met de volgende ingredienten en bereidingswijze is gemaakt:: """ + bereidingswijze 
            
         )
-        myresponse = openai.Moderation.create(
-            input=aprompt,
-        )
+        #myresponse = client.Moderation.create(
+        #    input=aprompt,
+        #)
         # st.write(myresponse)
 
         for i in "  ", "-", "1-9", "\n":
@@ -307,10 +307,10 @@ with st.spinner("Bezig met het maken van de afbeelding... "):
 
         try:
             
-            response = openai.Image.create(prompt=str(aprompt), n=1, size="512x512")
+            response = client.images.create(prompt=str(aprompt), n=1, size="512x512")
             image_url = response["data"][0]["url"]
             st.markdown("[Bekijk je broodje](str(response['data'][0]['url']))")
             st.image(image_url, caption="""### Het heerlijke AI broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE** """, width=340)
-        except openai.error.OpenAIError as e:
+        except client.error.OpenAIError as e:
             print(e.http_status)
             print(e.error)
