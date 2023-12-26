@@ -67,7 +67,17 @@ uploaded_file = st.file_uploader(
     type=["jpg","png"],
     help="Op dit moment ondersteunen we alleen foto's in jpg, png formaat ",
 )
-
+if uploaded_file:
+    myimage = Image.open(uploaded_file)
+    st.image(
+            myimage, 
+            caption=None,
+            width=240,
+            use_column_width=False,
+            clamp=True,
+            channels="RGB",
+            output_format="auto"
+    )
 
 img_file_buffer = st.camera_input("Maak een foto")
 
@@ -131,7 +141,7 @@ if img_file_buffer:
             
             print(response.json()["choices"][0]["message"]['content'])
             
-        except openai.error.OpenAIError as e:
+        except client.error.OpenAIError as e:
             print(e.http_status)
             print(e.error)
     
