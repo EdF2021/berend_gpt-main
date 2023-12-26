@@ -141,9 +141,9 @@ if img_file_buffer:
             
             print(response.json()["choices"][0]["message"]['content'])
             
-        except client.error.OpenAIError as e:
-            print(e.http_status)
-            print(e.error)
+        except: 
+            print("Fout")
+            
     
         if not prompt:
             prompt = st.chat_input("Geen foto? Schrijf hier jouw ingredienten")
@@ -229,9 +229,9 @@ if uploaded_file:
         # st.markdown("[Bekijk je broodje](str(response['data'][0]['url']))")
         # st.image(image_url, caption="""### Het heerlijke AI broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE** """, width=340)
         
-    except client.error.OpenAIError as e:
-        print(e.http_status)
-        print(e.error)
+    except:
+        print("Fout")
+        
         
 if not prompt:
     st.stop()    
@@ -311,6 +311,6 @@ with st.spinner("Bezig met het maken van de afbeelding... "):
             image_url = response["data"][0]["url"]
             st.markdown("[Bekijk je broodje](str(response['data'][0]['url']))")
             st.image(image_url, caption="""### Het heerlijke AI broodje is tot stand gekomen dankzij **powered by OpenAi, ChatGPT en DALE** """, width=340)
-        except client.error.OpenAIError as e:
-            print(e.http_status)
-            print(e.error)
+        except:
+            print("Fout")
+            
