@@ -1,5 +1,7 @@
 import os
-import openai
+from openai import OpenAI
+client = OpenAI()
+
 import streamlit as st
 from PIL import Image
 
@@ -142,6 +144,17 @@ if not uploaded_file:
         st.stop()
 
 if uploaded_file:
+    myimage = Image.open(uploaded_file)
+    st.image(
+            myimage, 
+            caption=None,
+            width=240,
+            use_column_width=False,
+            clamp=True,
+            channels="RGB",
+            output_format="auto"
+    )
+    
     try:
         import base64
         import requests
@@ -193,16 +206,7 @@ if uploaded_file:
         
         
         prompt = response.json()["choices"][0]["message"]['content']
-        myimage = Image.open(uploaded_file)
-        st.image(
-            myimage, 
-            caption=None,
-            width=240,
-            use_column_width=False,
-            clamp=True,
-            channels="RGB",
-            output_format="auto"
-        )
+        
         print(response.json()["choices"][0]["message"]['content'])
         # ing_image = Image.open(uploaded_file)
         # response = openai.Image.create_edit(
