@@ -2,7 +2,7 @@ import os
 from typing import List
 import streamlit as st
 from langchain.docstore.document import Document
-from berend_gpt.core.parsing import File
+from core.parsing import File
 import openai
 from streamlit.logger import get_logger
 from typing import NoReturn

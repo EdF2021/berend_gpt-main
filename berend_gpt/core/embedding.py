@@ -1,11 +1,11 @@
 from langchain.vectorstores import VectorStore
-from berend_gpt.core.parsing import File
+from core.parsing import File
 from langchain.vectorstores.faiss import FAISS
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.embeddings.base import Embeddings
 from typing import List, Type
 from langchain.docstore.document import Document
-from berend_gpt.core.debug import FakeVectorStore, FakeEmbeddings
+from core.debug import FakeVectorStore, FakeEmbeddings
 
 
 class FolderIndex:
