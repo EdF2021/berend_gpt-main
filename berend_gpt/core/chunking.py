@@ -1,6 +1,6 @@
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from berend_gpt.core.parsing import File
+from core.parsing import File
 
 
 def chunk_file(
