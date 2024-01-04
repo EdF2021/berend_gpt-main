@@ -25,7 +25,7 @@ from core.utils import get_llm
 
 LOGGER = get_logger(__name__)
 
-st.write(str(__name__))
+# st.write(str(__name__))
 
 try:
     openai_api_key = os.getenv("OPENAI_API_KEY")
