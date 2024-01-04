@@ -36,7 +36,7 @@ except:
     
 # st.session_state.get("OPENAI_API_KEY")
 
-image = Image.open("berend.gpt/images/producttoer.jpeg")
+image = Image.open("berend_gpt/images/producttoer.jpeg")
 
 # from berend_gpt.components.sidebar import sidebar
 
