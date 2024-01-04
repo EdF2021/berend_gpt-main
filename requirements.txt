@@ -3,7 +3,7 @@ faiss-cpu
 langchain
 langchainplus-sdk
 numpy
-openai
+openai==0.28
 pandas
 pillow
 pymupdf
